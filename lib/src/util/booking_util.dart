@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class BookingUtil {
   BookingUtil._();
 
@@ -11,6 +13,10 @@ class BookingUtil {
 
   static DateTime getEarliestDateTime(DateTime first, DateTime second) {
     return first.isBeforeOrEq(second) ? first : second;
+  }
+
+  static String formatDateTime(DateTime dt) {
+    return DateFormat.Hm().format(dt);
   }
 }
 

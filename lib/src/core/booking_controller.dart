@@ -22,10 +22,10 @@ class BookingController extends ChangeNotifier {
   List<DateTimeRange> bookedSlots = [];
 
   int _selectedSlot = (-1);
-  bool _isLoading = true;
+  bool _isUploading = true;
 
   int get selectedSlot => _selectedSlot;
-  bool get isLoading => _isLoading;
+  bool get isUploading => _isUploading;
 
   late DateTime base;
 
@@ -64,6 +64,16 @@ class BookingController extends ChangeNotifier {
     notifyListeners();
   }
 
+  void resetSelectedSlot() {
+    _selectedSlot = -1;
+    notifyListeners();
+  }
+
+  void toggleUploading() {
+    _isUploading = !_isUploading;
+    notifyListeners();
+  }
+
   // Future<void> uploadBooking() async {
   //   isLoading.value = true;
   //   final autoEmailController = Get.find<AutoEmailController>();
@@ -74,21 +84,21 @@ class BookingController extends ChangeNotifier {
   //   isLoading.value = false;
   // }
 
-  // Future<void> fetchBooking(QuerySnapshot<SportBooking> data) async {
-  //   bookedSlots.clear();
-  //   generateBookingSlots();
+  Future<void> generateBookedSlots(List<DateTimeRange> data) async {
+    bookedSlots.clear();
+    _generateBookingSlots();
 
-  //   //final result = await ApiRepostiory.to.fetchBookings(placeId: place.placeId ?? '');
-  //   for (var i = 0; i < data.size; i++) {
-  //     final item = data.docs[i].data();
-  //     bookedSlots.add(BookingPair(start: (item.bookingStart!), end: (item.bookingEnd!)));
-  //   }
-  // }
+    for (var i = 0; i < data.length; i++) {
+      final item = data[i];
+      bookedSlots.add(item);
+    }
+  }
 
-  void generateSportBooking() {
+  BookingService generateNewBookingForUploading() {
     final bookingDate = allBookingSlots.elementAt(selectedSlot);
     bookingService
       ..bookingStart = (bookingDate)
       ..bookingEnd = (bookingDate.add(Duration(minutes: bookingService.serviceDuration)));
+    return bookingService;
   }
 }

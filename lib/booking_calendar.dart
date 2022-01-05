@@ -1,7 +1,4 @@
 library booking_calendar;
 
-/// A Calculator.
-class Calculator {
-  /// Returns [value] plus 1.
-  int addOne(int value) => value + 1;
-}
+export 'src/core/booking_calendar.dart';
+export 'src/model/booking_service.dart';
