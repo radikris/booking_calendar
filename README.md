@@ -1,5 +1,5 @@
 <p align="center">
-	<img src="https://raw.githubusercontent.com/radikris/booking_calendar/main/assets/booking_calendar_logo.png" height="80" alt="Focus Detector Logo" />
+	<img src="https://raw.githubusercontent.com/radikris/booking_calendar/main/example/assets/booking_calendar_logo.png" height="80" alt="Booking Calendar Logo" />
 </p>
 <p align="center">
 	<a href="https://pub.dev/packages/booking_calendar"><img src="https://img.shields.io/pub/v/focus_detector.svg" alt="Pub.dev Badge"></a>
