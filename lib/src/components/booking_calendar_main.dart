@@ -22,18 +22,33 @@ class BookingCalendarMain extends StatefulWidget {
     this.formatDateTime,
     this.bookingButtonText,
     this.bookingButtonColor,
+    this.bookedSlotColor,
+    this.selectedSlotColor,
+    this.availableSlotColor,
+    this.bookedSlotText,
+    this.selectedSlotText,
+    this.availableSlotText,
+    this.gridScrollPhysics,
   }) : super(key: key);
 
   final Stream<dynamic>? Function({required DateTime start, required DateTime end}) getBookingStream;
   final Future<dynamic> Function({required BookingService newBooking}) uploadBooking;
   final List<DateTimeRange> Function({required dynamic streamResult}) convertStreamResultToDateTimeRanges;
 
+  ///Customizable
   final Widget? bookingExplanation;
   final int? bookingGridCrossAxisCount;
   final double? bookingGridChildAspectRatio;
   final String Function(DateTime dt)? formatDateTime;
   final String? bookingButtonText;
   final Color? bookingButtonColor;
+  final Color? bookedSlotColor;
+  final Color? selectedSlotColor;
+  final Color? availableSlotColor;
+  final String? bookedSlotText;
+  final String? selectedSlotText;
+  final String? availableSlotText;
+  final ScrollPhysics? gridScrollPhysics;
 
   @override
   State<BookingCalendarMain> createState() => _BookingCalendarMainState();
@@ -114,10 +129,15 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
                 widget.bookingExplanation ??
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: const [
-                        BookingExplanation(color: Colors.greenAccent, text: "Available"),
-                        BookingExplanation(color: Colors.orangeAccent, text: "Selected"),
-                        BookingExplanation(color: Colors.redAccent, text: "Booked"),
+                      children: [
+                        BookingExplanation(
+                            color: widget.availableSlotColor ?? Colors.greenAccent,
+                            text: widget.availableSlotText ?? "Available"),
+                        BookingExplanation(
+                            color: widget.selectedSlotColor ?? Colors.orangeAccent,
+                            text: widget.selectedSlotText ?? "Selected"),
+                        BookingExplanation(
+                            color: widget.bookedSlotColor ?? Colors.redAccent, text: widget.bookedSlotText ?? "Booked"),
                       ],
                     ),
                 const SizedBox(height: 8),
@@ -140,6 +160,7 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
 
                     return Expanded(
                       child: GridView.builder(
+                        physics: widget.gridScrollPhysics ?? const BouncingScrollPhysics(),
                         itemCount: controller.allBookingSlots.length,
                         itemBuilder: (context, index) => BookingSlot(
                           isBooked: controller.isSlotBooked(index),

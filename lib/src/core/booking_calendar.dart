@@ -17,6 +17,13 @@ class BookingCalendar extends StatelessWidget {
     this.formatDateTime,
     this.bookingButtonText,
     this.bookingButtonColor,
+    this.bookedSlotColor,
+    this.selectedSlotColor,
+    this.availableSlotColor,
+    this.bookedSlotText,
+    this.selectedSlotText,
+    this.availableSlotText,
+    this.gridScrollPhysics,
   }) : super(key: key);
 
   ///for the Calendar picker we use: [TableCalendar]
@@ -65,6 +72,18 @@ class BookingCalendar extends StatelessWidget {
 
   ///The color of the booking button
   final Color? bookingButtonColor;
+
+  ///The [Color] and the [Text] of the
+  ///already booked, currently selected, yet available slot
+  final Color? bookedSlotColor;
+  final Color? selectedSlotColor;
+  final Color? availableSlotColor;
+  final String? bookedSlotText;
+  final String? selectedSlotText;
+  final String? availableSlotText;
+
+  ///The [ScrollPhysics] of the [GridView] which shows the Booking Calendar
+  final ScrollPhysics? gridScrollPhysics;
 
   @override
   Widget build(BuildContext context) {
