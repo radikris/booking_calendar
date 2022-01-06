@@ -75,16 +75,6 @@ class BookingController extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Future<void> uploadBooking() async {
-  //   isLoading.value = true;
-  //   final autoEmailController = Get.find<AutoEmailController>();
-  //   final bookingDetail = generateSportBooking();
-  //   await autoEmailController.sendMail(bookingDetail, allBookingSlots.elementAt(selectedSlot.value));
-  //   await ApiRepostiory.to.uploadBooking(bookingDetail);
-  //   selectedSlot.value = -1;
-  //   isLoading.value = false;
-  // }
-
   Future<void> generateBookedSlots(List<DateTimeRange> data) async {
     bookedSlots.clear();
     _generateBookingSlots();
