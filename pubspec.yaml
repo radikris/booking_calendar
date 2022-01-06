@@ -1,6 +1,6 @@
 name: booking_calendar
 description: Flutter package to book online through your application.
-version: 0.0.1
+version: 1.0.0
 homepage: https://github.com/radikris/booking_calendar
 
 environment:
@@ -12,8 +12,6 @@ dependencies:
     sdk: flutter
   table_calendar: ^3.0.3
   provider: ^6.0.2
-  json_serializable: ^6.1.3
-  json_annotation: ^4.4.0
   intl: ^0.17.0
 
 dev_dependencies:

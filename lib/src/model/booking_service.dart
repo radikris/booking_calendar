@@ -1,9 +1,4 @@
-import 'package:json_annotation/json_annotation.dart';
-part 'booking_service.g.dart';
-
-@JsonSerializable(explicitToJson: true)
 class BookingService {
-  /// The generated code assumes these values exist in JSON.
   ///
   /// The userId of the currently logged user
   /// who will start the new booking
@@ -57,8 +52,28 @@ class BookingService {
 
   /// Connect the generated [_$BookingServiceFromJson] function to the `fromJson`
   /// factory.
-  factory BookingService.fromJson(Map<String, dynamic> json) => _$BookingServiceFromJson(json);
+  BookingService.fromJson(Map<String, dynamic> json)
+      : userEmail = json['userEmail'] as String?,
+        userPhoneNumber = json['userPhoneNumber'] as String?,
+        userId = json['userId'] as String?,
+        userName = json['userName'] as String?,
+        bookingStart = DateTime.parse(json['bookingStart'] as String),
+        bookingEnd = DateTime.parse(json['bookingEnd'] as String),
+        serviceId = json['serviceId'] as String?,
+        serviceName = json['serviceName'] as String,
+        serviceDuration = json['serviceDuration'] as int,
+        servicePrice = json['servicePrice'] as int?;
 
-  /// Connect the generated [_$BookingServiceToJson] function to the `toJson` method.
-  Map<String, dynamic> toJson() => _$BookingServiceToJson(this);
+  Map<String, dynamic> toJson() => {
+        'userId': userId,
+        'userName': userName,
+        'userEmail': userEmail,
+        'userPhoneNumber': userPhoneNumber,
+        'serviceId': serviceId,
+        'serviceName': serviceName,
+        'serviceDuration': serviceDuration,
+        'servicePrice': servicePrice,
+        'bookingStart': bookingStart.toIso8601String(),
+        'bookingEnd': bookingEnd.toIso8601String(),
+      };
 }
