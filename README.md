@@ -19,6 +19,8 @@ You can customise your booking calendar with a number of additional parameters.
 
 ## Usage
 
+Check the Demo Example for more Information
+
 ```dart
  Widget build(BuildContext context) {
     return BookingCalendar(
