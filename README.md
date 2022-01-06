@@ -41,6 +41,8 @@ You can customise your booking calendar with a number of additional parameters.
         selectedSlotColor: selectedSlotColor,
         selectedSlotText: selectedSlotText,
         gridScrollPhysics: gridScrollPhysics,
+        loadingWidget: loadingWidget,
+        errorWidget: errorWidget,
     );
   }
 ```
