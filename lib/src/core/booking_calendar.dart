@@ -90,6 +90,7 @@ class BookingCalendar extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (_) => BookingController(bookingService: bookingService),
       child: BookingCalendarMain(
+        key: key,
         getBookingStream: getBookingStream,
         uploadBooking: uploadBooking,
         bookingButtonColor: bookingButtonColor,
@@ -99,7 +100,13 @@ class BookingCalendar extends StatelessWidget {
         bookingGridCrossAxisCount: bookingGridCrossAxisCount,
         formatDateTime: formatDateTime,
         convertStreamResultToDateTimeRanges: convertStreamResultToDateTimeRanges,
-        key: key,
+        availableSlotColor: availableSlotColor,
+        availableSlotText: availableSlotText,
+        bookedSlotColor: bookedSlotColor,
+        bookedSlotText: bookedSlotText,
+        selectedSlotColor: selectedSlotColor,
+        selectedSlotText: selectedSlotText,
+        gridScrollPhysics: gridScrollPhysics,
       ),
     );
   }

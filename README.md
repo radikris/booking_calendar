@@ -1,39 +1,50 @@
-<!-- 
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+<p align="center">
+	<img src="https://raw.githubusercontent.com/radikris/booking_calendar/main/assets/booking_calendar_logo.png" height="80" alt="Focus Detector Logo" />
+</p>
+<p align="center">
+	<a href="https://pub.dev/packages/booking_calendar"><img src="https://img.shields.io/pub/v/focus_detector.svg" alt="Pub.dev Badge"></a>
+	<a href="https://opensource.org/licenses/MIT"><img src="https://img.shields.io/badge/license-MIT-purple.svg" alt="MIT License Badge"></a>
+	<a href="https://github.com/radikris/booking_calendar"><img src="https://img.shields.io/badge/platform-flutter-ff69b4.svg" alt="Flutter Platform Badge"></a>
+</p>
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages). 
+# Booking Calendar
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages). 
--->
+Want to make online bookings in your app? Then luckily you need look no further!
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+With a total of 4 lines, you get a working online booking system where users can track bookings in real-time.
 
-## Features
+It calculates the cases where there would be a conflict in the calendar and displays them in different colors.
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+You can customise your booking calendar with a number of additional parameters.
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder. 
-
 ```dart
-const like = 'sample';
+ Widget build(BuildContext context) {
+    return BookingCalendar(
+        key: key,
+        ///These are the required parameters
+        getBookingStream: getBookingStream,
+        uploadBooking: uploadBooking,
+        convertStreamResultToDateTimeRanges: convertStreamResultToDateTimeRanges,
+        ///These are only customizable, optional parameters
+        bookingButtonColor: bookingButtonColor,
+        bookingButtonText: bookingButtonText,
+        bookingExplanation: bookingExplanation,
+        bookingGridChildAspectRatio: bookingGridChildAspectRatio,
+        bookingGridCrossAxisCount: bookingGridCrossAxisCount,
+        formatDateTime: formatDateTime,
+        availableSlotColor: availableSlotColor,
+        availableSlotText: availableSlotText,
+        bookedSlotColor: bookedSlotColor,
+        bookedSlotText: bookedSlotText,
+        selectedSlotColor: selectedSlotColor,
+        selectedSlotText: selectedSlotText,
+        gridScrollPhysics: gridScrollPhysics,
+    );
+  }
 ```
 
 ## Additional information
 
-TODO: Tell users more about the package: where to find more information, how to 
-contribute to the package, how to file issues, what response they can expect 
-from the package authors, and more.
+Feel free to add issues and leave comments on the github repository.
