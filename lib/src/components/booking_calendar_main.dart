@@ -29,6 +29,8 @@ class BookingCalendarMain extends StatefulWidget {
     this.selectedSlotText,
     this.availableSlotText,
     this.gridScrollPhysics,
+    this.loadingWidget,
+    this.errorWidget,
   }) : super(key: key);
 
   final Stream<dynamic>? Function({required DateTime start, required DateTime end}) getBookingStream;
@@ -49,6 +51,8 @@ class BookingCalendarMain extends StatefulWidget {
   final String? selectedSlotText;
   final String? availableSlotText;
   final ScrollPhysics? gridScrollPhysics;
+  final Widget? loadingWidget;
+  final Widget? errorWidget;
 
   @override
   State<BookingCalendarMain> createState() => _BookingCalendarMainState();
@@ -145,13 +149,14 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
                   stream: widget.getBookingStream(start: startOfDay, end: endOfDay),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
-                      return Center(
-                        child: Text(snapshot.error.toString()),
-                      );
+                      return widget.errorWidget ??
+                          Center(
+                            child: Text(snapshot.error.toString()),
+                          );
                     }
 
                     if (!snapshot.hasData) {
-                      return const Center(child: CircularProgressIndicator());
+                      return widget.loadingWidget ?? const Center(child: CircularProgressIndicator());
                     }
 
                     ///this snapshot should be converted to List<DateTimeRange>

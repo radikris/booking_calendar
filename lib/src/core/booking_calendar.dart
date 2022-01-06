@@ -24,6 +24,8 @@ class BookingCalendar extends StatelessWidget {
     this.selectedSlotText,
     this.availableSlotText,
     this.gridScrollPhysics,
+    this.loadingWidget,
+    this.errorWidget,
   }) : super(key: key);
 
   ///for the Calendar picker we use: [TableCalendar]
@@ -85,6 +87,12 @@ class BookingCalendar extends StatelessWidget {
   ///The [ScrollPhysics] of the [GridView] which shows the Booking Calendar
   final ScrollPhysics? gridScrollPhysics;
 
+  ///Display your custom loading widget while fetching data from [Stream]
+  final Widget? loadingWidget;
+
+  ///Display your custom error widget if any error recurred while fetching data from [Stream]
+  final Widget? errorWidget;
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -107,6 +115,8 @@ class BookingCalendar extends StatelessWidget {
         selectedSlotColor: selectedSlotColor,
         selectedSlotText: selectedSlotText,
         gridScrollPhysics: gridScrollPhysics,
+        loadingWidget: loadingWidget,
+        errorWidget: errorWidget,
       ),
     );
   }
