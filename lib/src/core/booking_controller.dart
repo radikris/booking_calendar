@@ -22,7 +22,7 @@ class BookingController extends ChangeNotifier {
   List<DateTimeRange> bookedSlots = [];
 
   int _selectedSlot = (-1);
-  bool _isUploading = true;
+  bool _isUploading = false;
 
   int get selectedSlot => _selectedSlot;
   bool get isUploading => _isUploading;
@@ -60,6 +60,7 @@ class BookingController extends ChangeNotifier {
   }
 
   void selectSlot(int idx) {
+    print(idx);
     _selectedSlot = idx;
     notifyListeners();
   }

@@ -14,6 +14,7 @@ class BookingCalendarMain extends StatefulWidget {
   const BookingCalendarMain({
     Key? key,
     required this.getBookingStream,
+    required this.convertStreamResultToDateTimeRanges,
     required this.uploadBooking,
     this.bookingExplanation,
     this.bookingGridCrossAxisCount,
@@ -25,6 +26,7 @@ class BookingCalendarMain extends StatefulWidget {
 
   final Stream<dynamic>? Function({required DateTime start, required DateTime end}) getBookingStream;
   final Future<dynamic> Function({required BookingService newBooking}) uploadBooking;
+  final List<DateTimeRange> Function({required dynamic streamResult}) convertStreamResultToDateTimeRanges;
 
   final Widget? bookingExplanation;
   final int? bookingGridCrossAxisCount;
@@ -64,10 +66,13 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
     endOfDay = _selectedDay.add(const Duration(days: 1)).endOfDay;
 
     controller.base = startOfDay;
+    controller.resetSelectedSlot();
   }
 
   @override
   Widget build(BuildContext context) {
+    controller = context.watch<BookingController>();
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       child: (controller.isUploading)
@@ -129,9 +134,9 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
                       return const Center(child: CircularProgressIndicator());
                     }
 
-                    ///this snapshot should return List<DateTimeRange>
+                    ///this snapshot should be converted to List<DateTimeRange>
                     final data = snapshot.requireData;
-                    controller.generateBookedSlots(data);
+                    controller.generateBookedSlots(widget.convertStreamResultToDateTimeRanges(streamResult: data));
 
                     return Expanded(
                       child: GridView.builder(

@@ -6,6 +6,15 @@ class BookingDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(child: CommonCard(child: Icon(Icons.book_online)));
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: const [
+        Center(
+          child: CommonCard(child: Icon(Icons.book_online, size: 256)),
+        ),
+        SizedBox(height: 16),
+        Text("Here comes your fancy loading"),
+      ],
+    );
   }
 }
