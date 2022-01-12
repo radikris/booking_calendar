@@ -13,6 +13,8 @@ class BookingController extends ChangeNotifier {
     _generateBookingSlots();
   }
 
+  late DateTime base;
+
   DateTime? serviceOpening;
   DateTime? serviceClosing;
 
@@ -26,8 +28,6 @@ class BookingController extends ChangeNotifier {
 
   int get selectedSlot => _selectedSlot;
   bool get isUploading => _isUploading;
-
-  late DateTime base;
 
   void _generateBookingSlots() {
     allBookingSlots.clear();
@@ -60,7 +60,6 @@ class BookingController extends ChangeNotifier {
   }
 
   void selectSlot(int idx) {
-    print(idx);
     _selectedSlot = idx;
     notifyListeners();
   }

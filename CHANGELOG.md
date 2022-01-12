@@ -9,3 +9,7 @@
 ## 1.0.0+2
 
 - Resize demo screenshot.
+
+## 1.0.0+3
+
+- Added demo gif.

@@ -50,8 +50,6 @@ class BookingService {
       required this.serviceDuration,
       this.servicePrice});
 
-  /// Connect the generated [_$BookingServiceFromJson] function to the `fromJson`
-  /// factory.
   BookingService.fromJson(Map<String, dynamic> json)
       : userEmail = json['userEmail'] as String?,
         userPhoneNumber = json['userPhoneNumber'] as String?,

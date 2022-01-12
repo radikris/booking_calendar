@@ -19,6 +19,7 @@ You can customise your booking calendar with a number of additional parameters.
 
 <p align="center">
 	<img src="https://raw.githubusercontent.com/radikris/booking_calendar/main/example/assets/booking_calendar_demo.png" height="400" alt="Booking Calendar Logo" />
+	<img src="https://raw.githubusercontent.com/radikris/booking_calendar/main/example/assets/booking_calendar_demo.png" height="400" alt="Booking Calendar Logo" />
 </p>
 
 ## Usage
