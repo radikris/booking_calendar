@@ -13,3 +13,7 @@
 ## 1.0.0+3
 
 - Added demo gif.
+
+## 1.0.1
+
+- Update provider dependency
