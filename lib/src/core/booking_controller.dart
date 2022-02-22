@@ -5,11 +5,13 @@ import 'package:flutter/material.dart';
 
 class BookingController extends ChangeNotifier {
   BookingService bookingService;
-  BookingController({required this.bookingService, this.serviceOpening, this.serviceClosing}) {
-    if (serviceOpening != null && serviceClosing != null && serviceOpening!.isAfter(serviceClosing!)) {
+  BookingController({required this.bookingService}) {
+    serviceOpening = bookingService.bookingStart;
+    serviceClosing = bookingService.bookingEnd;
+    if (serviceOpening!.isAfter(serviceClosing!)) {
       throw "Service closing must be after opening";
     }
-    base = serviceOpening ?? DateTime.now().startOfDay;
+    base = serviceOpening!;
     _generateBookingSlots();
   }
 
@@ -32,14 +34,18 @@ class BookingController extends ChangeNotifier {
   void _generateBookingSlots() {
     allBookingSlots.clear();
     _allBookingSlots = List.generate(
-        _maxServiceFitInADay(), (index) => base.add(Duration(minutes: bookingService.serviceDuration) * index));
+        _maxServiceFitInADay(),
+        (index) => base
+            .add(Duration(minutes: bookingService.serviceDuration) * index));
   }
 
   int _maxServiceFitInADay() {
     ///if no serviceOpening and closing was provided we will calculate with 00:00-24:00
     int openingHours = 24;
     if (serviceOpening != null && serviceClosing != null) {
-      openingHours = DateTimeRange(start: serviceOpening!, end: serviceClosing!).duration.inHours;
+      openingHours = DateTimeRange(start: serviceOpening!, end: serviceClosing!)
+          .duration
+          .inHours;
     }
 
     ///round down if not the whole service would fit in the last hours
@@ -50,8 +56,8 @@ class BookingController extends ChangeNotifier {
     DateTime checkSlot = allBookingSlots.elementAt(index);
     bool result = false;
     for (var slot in bookedSlots) {
-      if (BookingUtil.isOverLapping(
-          slot.start, slot.end, checkSlot, checkSlot.add(Duration(minutes: bookingService.serviceDuration)))) {
+      if (BookingUtil.isOverLapping(slot.start, slot.end, checkSlot,
+          checkSlot.add(Duration(minutes: bookingService.serviceDuration)))) {
         result = true;
         break;
       }
@@ -88,7 +94,8 @@ class BookingController extends ChangeNotifier {
     final bookingDate = allBookingSlots.elementAt(selectedSlot);
     bookingService
       ..bookingStart = (bookingDate)
-      ..bookingEnd = (bookingDate.add(Duration(minutes: bookingService.serviceDuration)));
+      ..bookingEnd =
+          (bookingDate.add(Duration(minutes: bookingService.serviceDuration)));
     return bookingService;
   }
 }

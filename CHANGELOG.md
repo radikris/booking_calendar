@@ -17,3 +17,7 @@
 ## 1.0.1
 
 - Update provider dependency
+
+## 1.0.2
+
+- Passing booking start and end fix

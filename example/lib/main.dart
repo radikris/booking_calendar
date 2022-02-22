@@ -20,20 +20,25 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
   @override
   void initState() {
     super.initState();
+    // DateTime.now().startOfDay
+    // DateTime.now().endOfDay
     mockBookingService = BookingService(
         serviceName: 'Mock Service',
         serviceDuration: 30,
-        bookingEnd: DateTime(now.year, now.month, now.day, 8, 0),
-        bookingStart: DateTime(now.year, now.month, now.day, 18, 0));
+        bookingEnd: DateTime(now.year, now.month, now.day, 18, 0),
+        bookingStart: DateTime(now.year, now.month, now.day, 8, 0));
   }
 
-  Stream<dynamic>? getBookingStreamMock({required DateTime end, required DateTime start}) {
+  Stream<dynamic>? getBookingStreamMock(
+      {required DateTime end, required DateTime start}) {
     return Stream.value([]);
   }
 
-  Future<dynamic> uploadBookingMock({required BookingService newBooking}) async {
+  Future<dynamic> uploadBookingMock(
+      {required BookingService newBooking}) async {
     await Future.delayed(const Duration(seconds: 1));
-    converted.add(DateTimeRange(start: newBooking.bookingStart, end: newBooking.bookingEnd));
+    converted.add(DateTimeRange(
+        start: newBooking.bookingStart, end: newBooking.bookingEnd));
     print('${newBooking.toJson()} has been uploaded');
   }
 
@@ -45,10 +50,14 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
     DateTime second = now.add(Duration(minutes: 55));
     DateTime third = now.subtract(Duration(minutes: 240));
     DateTime fourth = now.subtract(Duration(minutes: 500));
-    converted.add(DateTimeRange(start: first, end: now.add(Duration(minutes: 30))));
-    converted.add(DateTimeRange(start: second, end: second.add(Duration(minutes: 23))));
-    converted.add(DateTimeRange(start: third, end: third.add(Duration(minutes: 15))));
-    converted.add(DateTimeRange(start: fourth, end: fourth.add(Duration(minutes: 50))));
+    converted
+        .add(DateTimeRange(start: first, end: now.add(Duration(minutes: 30))));
+    converted.add(
+        DateTimeRange(start: second, end: second.add(Duration(minutes: 23))));
+    converted.add(
+        DateTimeRange(start: third, end: third.add(Duration(minutes: 15))));
+    converted.add(
+        DateTimeRange(start: fourth, end: fourth.add(Duration(minutes: 50))));
     return converted;
   }
 
