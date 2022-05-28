@@ -1,13 +1,13 @@
 import 'package:booking_calendar/src/model/booking_service.dart';
 import 'package:booking_calendar/src/util/booking_util.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class BookingController extends ChangeNotifier {
   BookingService bookingService;
-  BookingController({required this.bookingService}) {
+  BookingController({required this.bookingService, this.pauseSlots}) {
     serviceOpening = bookingService.bookingStart;
     serviceClosing = bookingService.bookingEnd;
+    pauseSlots = pauseSlots;
     if (serviceOpening!.isAfter(serviceClosing!)) {
       throw "Service closing must be after opening";
     }
@@ -24,6 +24,7 @@ class BookingController extends ChangeNotifier {
   List<DateTime> get allBookingSlots => _allBookingSlots;
 
   List<DateTimeRange> bookedSlots = [];
+  List<DateTimeRange>? pauseSlots = [];
 
   int _selectedSlot = (-1);
   bool _isUploading = false;
@@ -97,5 +98,20 @@ class BookingController extends ChangeNotifier {
       ..bookingEnd =
           (bookingDate.add(Duration(minutes: bookingService.serviceDuration)));
     return bookingService;
+  }
+
+  bool isSlotInPauseTime(DateTime slot) {
+    bool result = false;
+    if (pauseSlots == null) {
+      return result;
+    }
+    for (var pauseSlot in pauseSlots!) {
+      if (BookingUtil.isOverLapping(pauseSlot.start, pauseSlot.end, slot,
+          slot.add(Duration(minutes: bookingService.serviceDuration)))) {
+        result = true;
+        break;
+      }
+    }
+    return result;
   }
 }

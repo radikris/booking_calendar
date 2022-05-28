@@ -1,4 +1,3 @@
-import 'package:example/mock_data.dart';
 import 'package:flutter/material.dart';
 import 'package:booking_calendar/booking_calendar.dart';
 
@@ -47,19 +46,25 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
   List<DateTimeRange> convertStreamResultMock({required dynamic streamResult}) {
     ///here you can parse the streamresult and convert to [List<DateTimeRange>]
     DateTime first = now;
-    DateTime second = now.add(Duration(minutes: 55));
-    DateTime third = now.subtract(Duration(minutes: 240));
-    DateTime fourth = now.subtract(Duration(minutes: 500));
-    converted
-        .add(DateTimeRange(start: first, end: now.add(Duration(minutes: 30))));
+    DateTime second = now.add(const Duration(minutes: 55));
+    DateTime third = now.subtract(const Duration(minutes: 240));
+    DateTime fourth = now.subtract(const Duration(minutes: 500));
     converted.add(
-        DateTimeRange(start: second, end: second.add(Duration(minutes: 23))));
-    converted.add(
-        DateTimeRange(start: third, end: third.add(Duration(minutes: 15))));
-    converted.add(
-        DateTimeRange(start: fourth, end: fourth.add(Duration(minutes: 50))));
+        DateTimeRange(start: first, end: now.add(const Duration(minutes: 30))));
+    converted.add(DateTimeRange(
+        start: second, end: second.add(const Duration(minutes: 23))));
+    converted.add(DateTimeRange(
+        start: third, end: third.add(const Duration(minutes: 15))));
+    converted.add(DateTimeRange(
+        start: fourth, end: fourth.add(const Duration(minutes: 50))));
     return converted;
   }
+
+  List<DateTimeRange> pauseSlots = [
+    DateTimeRange(
+        start: DateTime.now().add(const Duration(minutes: 5)),
+        end: DateTime.now().add(const Duration(minutes: 60)))
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -78,6 +83,9 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
               convertStreamResultToDateTimeRanges: convertStreamResultMock,
               getBookingStream: getBookingStreamMock,
               uploadBooking: uploadBookingMock,
+              pauseSlots: pauseSlots,
+              pauseSlotText: 'LUNCH',
+              hideBreakTime: false,
             ),
           ),
         ));

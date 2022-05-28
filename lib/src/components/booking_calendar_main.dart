@@ -31,11 +31,18 @@ class BookingCalendarMain extends StatefulWidget {
     this.gridScrollPhysics,
     this.loadingWidget,
     this.errorWidget,
+    this.uploadingWidget,
+    this.pauseSlotColor,
+    this.pauseSlotText,
+    this.hideBreakTime = false,
   }) : super(key: key);
 
-  final Stream<dynamic>? Function({required DateTime start, required DateTime end}) getBookingStream;
-  final Future<dynamic> Function({required BookingService newBooking}) uploadBooking;
-  final List<DateTimeRange> Function({required dynamic streamResult}) convertStreamResultToDateTimeRanges;
+  final Stream<dynamic>? Function(
+      {required DateTime start, required DateTime end}) getBookingStream;
+  final Future<dynamic> Function({required BookingService newBooking})
+      uploadBooking;
+  final List<DateTimeRange> Function({required dynamic streamResult})
+      convertStreamResultToDateTimeRanges;
 
   ///Customizable
   final Widget? bookingExplanation;
@@ -47,12 +54,19 @@ class BookingCalendarMain extends StatefulWidget {
   final Color? bookedSlotColor;
   final Color? selectedSlotColor;
   final Color? availableSlotColor;
+  final Color? pauseSlotColor;
+
   final String? bookedSlotText;
   final String? selectedSlotText;
   final String? availableSlotText;
+  final String? pauseSlotText;
+
   final ScrollPhysics? gridScrollPhysics;
   final Widget? loadingWidget;
   final Widget? errorWidget;
+  final Widget? uploadingWidget;
+
+  final bool? hideBreakTime;
 
   @override
   State<BookingCalendarMain> createState() => _BookingCalendarMainState();
@@ -96,7 +110,7 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
       builder: (_, controller, __) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         child: (controller.isUploading)
-            ? const BookingDialog()
+            ? widget.uploadingWidget ?? const BookingDialog()
             : Column(
                 children: [
                   CommonCard(
@@ -105,7 +119,8 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
                       lastDay: DateTime.now().add(const Duration(days: 1000)),
                       focusedDay: _focusedDay,
                       calendarFormat: _calendarFormat,
-                      calendarStyle: const CalendarStyle(isTodayHighlighted: true),
+                      calendarStyle:
+                          const CalendarStyle(isTodayHighlighted: true),
                       selectedDayPredicate: (day) {
                         return isSameDay(_selectedDay, day);
                       },
@@ -132,23 +147,34 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
                   ),
                   const SizedBox(height: 8),
                   widget.bookingExplanation ??
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      Wrap(
+                        alignment: WrapAlignment.spaceAround,
+                        spacing: 8.0,
+                        runSpacing: 8.0,
+                        direction: Axis.horizontal,
                         children: [
                           BookingExplanation(
-                              color: widget.availableSlotColor ?? Colors.greenAccent,
+                              color: widget.availableSlotColor ??
+                                  Colors.greenAccent,
                               text: widget.availableSlotText ?? "Available"),
                           BookingExplanation(
-                              color: widget.selectedSlotColor ?? Colors.orangeAccent,
+                              color: widget.selectedSlotColor ??
+                                  Colors.orangeAccent,
                               text: widget.selectedSlotText ?? "Selected"),
                           BookingExplanation(
                               color: widget.bookedSlotColor ?? Colors.redAccent,
                               text: widget.bookedSlotText ?? "Booked"),
+                          if (widget.hideBreakTime != null &&
+                              widget.hideBreakTime == false)
+                            BookingExplanation(
+                                color: widget.pauseSlotColor ?? Colors.grey,
+                                text: widget.pauseSlotText ?? "Break"),
                         ],
                       ),
                   const SizedBox(height: 8),
                   StreamBuilder<dynamic>(
-                    stream: widget.getBookingStream(start: startOfDay, end: endOfDay),
+                    stream: widget.getBookingStream(
+                        start: startOfDay, end: endOfDay),
                     builder: (context, snapshot) {
                       if (snapshot.hasError) {
                         return widget.errorWidget ??
@@ -158,31 +184,49 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
                       }
 
                       if (!snapshot.hasData) {
-                        return widget.loadingWidget ?? const Center(child: CircularProgressIndicator());
+                        return widget.loadingWidget ??
+                            const Center(child: CircularProgressIndicator());
                       }
 
                       ///this snapshot should be converted to List<DateTimeRange>
                       final data = snapshot.requireData;
-                      controller.generateBookedSlots(widget.convertStreamResultToDateTimeRanges(streamResult: data));
+                      controller.generateBookedSlots(
+                          widget.convertStreamResultToDateTimeRanges(
+                              streamResult: data));
 
                       return Expanded(
                         child: GridView.builder(
-                          physics: widget.gridScrollPhysics ?? const BouncingScrollPhysics(),
+                          physics: widget.gridScrollPhysics ??
+                              const BouncingScrollPhysics(),
                           itemCount: controller.allBookingSlots.length,
-                          itemBuilder: (context, index) => BookingSlot(
-                            isBooked: controller.isSlotBooked(index),
-                            isSelected: index == controller.selectedSlot,
-                            onTap: () => controller.selectSlot(index),
-                            child: Center(
-                              child: Text(
-                                widget.formatDateTime?.call(controller.allBookingSlots.elementAt(index)) ??
-                                    BookingUtil.formatDateTime(controller.allBookingSlots.elementAt(index)),
+                          itemBuilder: (context, index) {
+                            final slot =
+                                controller.allBookingSlots.elementAt(index);
+
+                            return BookingSlot(
+                              hideBreakSlot: widget.hideBreakTime,
+                              pauseSlotColor: widget.pauseSlotColor,
+                              availableSlotColor: widget.availableSlotColor,
+                              bookedSlotColor: widget.bookedSlotColor,
+                              selectedSlotColor: widget.selectedSlotColor,
+                              isPauseTime: controller.isSlotInPauseTime(slot),
+                              isBooked: controller.isSlotBooked(index),
+                              isSelected: index == controller.selectedSlot,
+                              onTap: () => controller.selectSlot(index),
+                              child: Center(
+                                child: Text(
+                                  widget.formatDateTime?.call(slot) ??
+                                      BookingUtil.formatDateTime(slot),
+                                ),
                               ),
-                            ),
-                          ),
-                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: widget.bookingGridCrossAxisCount ?? 3,
-                            childAspectRatio: widget.bookingGridChildAspectRatio ?? 1.5,
+                            );
+                          },
+                          gridDelegate:
+                              SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount:
+                                widget.bookingGridCrossAxisCount ?? 3,
+                            childAspectRatio:
+                                widget.bookingGridChildAspectRatio ?? 1.5,
                           ),
                         ),
                       );
@@ -195,7 +239,9 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
                     text: widget.bookingButtonText ?? 'BOOK',
                     onTap: () async {
                       controller.toggleUploading();
-                      await widget.uploadBooking(newBooking: controller.generateNewBookingForUploading());
+                      await widget.uploadBooking(
+                          newBooking:
+                              controller.generateNewBookingForUploading());
                       controller.toggleUploading();
                       controller.resetSelectedSlot();
                     },

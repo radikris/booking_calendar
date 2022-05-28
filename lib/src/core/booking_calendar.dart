@@ -26,6 +26,11 @@ class BookingCalendar extends StatelessWidget {
     this.gridScrollPhysics,
     this.loadingWidget,
     this.errorWidget,
+    this.uploadingWidget,
+    this.pauseSlotColor,
+    this.pauseSlotText,
+    this.pauseSlots,
+    this.hideBreakTime,
   }) : super(key: key);
 
   ///for the Calendar picker we use: [TableCalendar]
@@ -79,13 +84,15 @@ class BookingCalendar extends StatelessWidget {
   final Color? bookingButtonColor;
 
   ///The [Color] and the [Text] of the
-  ///already booked, currently selected, yet available slot
+  ///already booked, currently selected, yet available slot (or slot for the break time)
   final Color? bookedSlotColor;
   final Color? selectedSlotColor;
   final Color? availableSlotColor;
+  final Color? pauseSlotColor;
   final String? bookedSlotText;
   final String? selectedSlotText;
   final String? availableSlotText;
+  final String? pauseSlotText;
 
   ///The [ScrollPhysics] of the [GridView] which shows the Booking Calendar
   final ScrollPhysics? gridScrollPhysics;
@@ -96,10 +103,20 @@ class BookingCalendar extends StatelessWidget {
   ///Display your custom error widget if any error recurred while fetching data from [Stream]
   final Widget? errorWidget;
 
+  ///Display your custom  widget while uploading data to your database
+  final Widget? uploadingWidget;
+
+  ///The pause time, where the slots won't be available
+  final List<DateTimeRange>? pauseSlots;
+
+  ///True if you want to hide your break time from the calendar, and the explanation text as well
+  final bool? hideBreakTime;
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => BookingController(bookingService: bookingService),
+      create: (_) => BookingController(
+          bookingService: bookingService, pauseSlots: pauseSlots),
       child: BookingCalendarMain(
         key: key,
         getBookingStream: getBookingStream,
@@ -121,6 +138,10 @@ class BookingCalendar extends StatelessWidget {
         gridScrollPhysics: gridScrollPhysics,
         loadingWidget: loadingWidget,
         errorWidget: errorWidget,
+        uploadingWidget: uploadingWidget,
+        pauseSlotColor: pauseSlotColor,
+        pauseSlotText: pauseSlotText,
+        hideBreakTime: hideBreakTime,
       ),
     );
   }

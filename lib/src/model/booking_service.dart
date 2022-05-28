@@ -38,17 +38,18 @@ class BookingService {
   ///The selected booking slot's ending time
   DateTime bookingEnd;
 
-  BookingService(
-      {this.userEmail,
-      this.userPhoneNumber,
-      this.userId,
-      this.userName,
-      required this.bookingStart,
-      required this.bookingEnd,
-      this.serviceId,
-      required this.serviceName,
-      required this.serviceDuration,
-      this.servicePrice});
+  BookingService({
+    this.userEmail,
+    this.userPhoneNumber,
+    this.userId,
+    this.userName,
+    required this.bookingStart,
+    required this.bookingEnd,
+    this.serviceId,
+    required this.serviceName,
+    required this.serviceDuration,
+    this.servicePrice,
+  });
 
   BookingService.fromJson(Map<String, dynamic> json)
       : userEmail = json['userEmail'] as String?,
