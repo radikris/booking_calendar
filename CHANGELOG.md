@@ -29,3 +29,6 @@
 -- Added more customization option
 -- Added breaktime options, where you can disable booking slots, but you also have the choice to hide or not these slots from your calendar
 -- Breaktime text and color parameters
+
+## 1.1.1
+- Updated readme with new example for the fixes, and extra parameters

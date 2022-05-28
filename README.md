@@ -41,6 +41,8 @@ Check the Demo Example for more Information
         bookingGridChildAspectRatio: bookingGridChildAspectRatio,
         bookingGridCrossAxisCount: bookingGridCrossAxisCount,
         formatDateTime: formatDateTime,
+        convertStreamResultToDateTimeRanges:
+        convertStreamResultToDateTimeRanges,
         availableSlotColor: availableSlotColor,
         availableSlotText: availableSlotText,
         bookedSlotColor: bookedSlotColor,
@@ -50,6 +52,10 @@ Check the Demo Example for more Information
         gridScrollPhysics: gridScrollPhysics,
         loadingWidget: loadingWidget,
         errorWidget: errorWidget,
+        uploadingWidget: uploadingWidget,
+        pauseSlotColor: pauseSlotColor,
+        pauseSlotText: pauseSlotText,
+        hideBreakTime: hideBreakTime,
     );
   }
 ```
