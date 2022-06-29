@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:booking_calendar/booking_calendar.dart';
 
@@ -21,24 +23,18 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
     super.initState();
     // DateTime.now().startOfDay
     // DateTime.now().endOfDay
-    mockBookingService = BookingService(
-        serviceName: 'Mock Service',
-        serviceDuration: 30,
-        bookingEnd: DateTime(now.year, now.month, now.day, 18, 0),
-        bookingStart: DateTime(now.year, now.month, now.day, 8, 0));
+    mockBookingService =
+        BookingService(serviceName: 'Mock Service', serviceDuration: 30, bookingEnd: DateTime(now.year, now.month, now.day, 18, 0), bookingStart: DateTime(now.year, now.month, now.day, 8, 0));
   }
 
-  Stream<dynamic>? getBookingStreamMock(
-      {required DateTime end, required DateTime start}) {
+  Stream<dynamic>? getBookingStreamMock({required DateTime end, required DateTime start}) {
     return Stream.value([]);
   }
 
-  Future<dynamic> uploadBookingMock(
-      {required BookingService newBooking}) async {
+  Future<dynamic> uploadBookingMock({required BookingService newBooking}) async {
     await Future.delayed(const Duration(seconds: 1));
-    converted.add(DateTimeRange(
-        start: newBooking.bookingStart, end: newBooking.bookingEnd));
-    print('${newBooking.toJson()} has been uploaded');
+    converted.add(DateTimeRange(start: newBooking.bookingStart, end: newBooking.bookingEnd));
+    log('${newBooking.toJson()} has been uploaded');
   }
 
   List<DateTimeRange> converted = [];
@@ -49,22 +45,14 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
     DateTime second = now.add(const Duration(minutes: 55));
     DateTime third = now.subtract(const Duration(minutes: 240));
     DateTime fourth = now.subtract(const Duration(minutes: 500));
-    converted.add(
-        DateTimeRange(start: first, end: now.add(const Duration(minutes: 30))));
-    converted.add(DateTimeRange(
-        start: second, end: second.add(const Duration(minutes: 23))));
-    converted.add(DateTimeRange(
-        start: third, end: third.add(const Duration(minutes: 15))));
-    converted.add(DateTimeRange(
-        start: fourth, end: fourth.add(const Duration(minutes: 50))));
+    converted.add(DateTimeRange(start: first, end: now.add(const Duration(minutes: 30))));
+    converted.add(DateTimeRange(start: second, end: second.add(const Duration(minutes: 23))));
+    converted.add(DateTimeRange(start: third, end: third.add(const Duration(minutes: 15))));
+    converted.add(DateTimeRange(start: fourth, end: fourth.add(const Duration(minutes: 50))));
     return converted;
   }
 
-  List<DateTimeRange> pauseSlots = [
-    DateTimeRange(
-        start: DateTime.now().add(const Duration(minutes: 5)),
-        end: DateTime.now().add(const Duration(minutes: 60)))
-  ];
+  List<DateTimeRange> pauseSlots = [DateTimeRange(start: DateTime.now().add(const Duration(minutes: 5)), end: DateTime.now().add(const Duration(minutes: 60)))];
 
   @override
   Widget build(BuildContext context) {

@@ -10,15 +10,15 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  table_calendar: ^3.0.3
+  table_calendar: ^3.0.6
   intl: ^0.17.0
-  provider: ^5.0.0
+  provider: ^6.0.3
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^1.0.0
-  build_runner: ^2.1.7
+  flutter_lints: ^2.0.1
+  build_runner: ^2.1.11
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
