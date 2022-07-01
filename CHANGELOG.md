@@ -1,3 +1,6 @@
+## 1.1.3
+- Updated Readme with Firebase example and code snippets
+
 ## 1.1.2
 - Updated to Flutter 3.0
 - Update dependencies (table_calendar, provider)

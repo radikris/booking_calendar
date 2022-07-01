@@ -113,8 +113,7 @@ class BookingCalendar extends StatelessWidget {
   ///True if you want to hide your break time from the calendar, and the explanation text as well
   final bool? hideBreakTime;
 
-  //for localizing the calendar, String code to locale property. (intl format)
-  //See: [https://pub.dev/packages/table_calendar#locale]
+  ///for localizing the calendar, String code to locale property. (intl format) See: [https://pub.dev/packages/table_calendar#locale]
   final String? locale;
 
   @override
