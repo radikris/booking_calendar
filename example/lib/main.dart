@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:booking_calendar/booking_calendar.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 void main() {
-  runApp(const BookingCalendarDemoApp());
+  initializeDateFormatting()
+      .then((_) => runApp(const BookingCalendarDemoApp()));
 }
 
 class BookingCalendarDemoApp extends StatefulWidget {
@@ -60,11 +62,13 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
     return converted;
   }
 
-  List<DateTimeRange> pauseSlots = [
-    DateTimeRange(
-        start: DateTime.now().add(const Duration(minutes: 5)),
-        end: DateTime.now().add(const Duration(minutes: 60)))
-  ];
+  List<DateTimeRange> generatePauseSlots() {
+    return [
+      DateTimeRange(
+          start: DateTime(now.year, now.month, now.day, 12, 0),
+          end: DateTime(now.year, now.month, now.day, 13, 0))
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,9 +87,12 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
               convertStreamResultToDateTimeRanges: convertStreamResultMock,
               getBookingStream: getBookingStreamMock,
               uploadBooking: uploadBookingMock,
-              pauseSlots: pauseSlots,
+              pauseSlots: generatePauseSlots(),
               pauseSlotText: 'LUNCH',
               hideBreakTime: false,
+              loadingWidget: const Text('Fetching data...'),
+              uploadingWidget: const CircularProgressIndicator(),
+              locale: 'hu_HU',
             ),
           ),
         ));

@@ -35,6 +35,7 @@ class BookingCalendarMain extends StatefulWidget {
     this.pauseSlotColor,
     this.pauseSlotText,
     this.hideBreakTime = false,
+    this.locale,
   }) : super(key: key);
 
   final Stream<dynamic>? Function(
@@ -67,6 +68,8 @@ class BookingCalendarMain extends StatefulWidget {
   final Widget? uploadingWidget;
 
   final bool? hideBreakTime;
+
+  final String? locale;
 
   @override
   State<BookingCalendarMain> createState() => _BookingCalendarMainState();
@@ -115,6 +118,7 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
                 children: [
                   CommonCard(
                     child: TableCalendar(
+                      locale: widget.locale,
                       firstDay: DateTime.now(),
                       lastDay: DateTime.now().add(const Duration(days: 1000)),
                       focusedDay: _focusedDay,
