@@ -29,6 +29,8 @@ class BookingCalendar extends StatelessWidget {
     this.uploadingWidget,
     this.pauseSlotColor,
     this.pauseSlotText,
+    this.commonCardColor,
+    this.slotTextColor,
     this.pauseSlots,
     this.hideBreakTime,
   }) : super(key: key);
@@ -45,23 +47,20 @@ class BookingCalendar extends StatelessWidget {
   ///so we can track realtime changes in our Booking Calendar
   ///this is a callback function, and the calendar will call this function whenever the user changes the selected date
   ///and will pass the start and end parameters with the currently selected date (00:00 and 24:00)
-  final Stream<dynamic>? Function(
-      {required DateTime start, required DateTime end}) getBookingStream;
+  final Stream<dynamic>? Function({required DateTime start, required DateTime end}) getBookingStream;
 
   ///The booking calendar accepts any type of [Stream]s, so using ducktyping, the stream generic type is [dynamic]
   ///This callback method will convert the stream result to [List<DateTimeRange>], because this package
   ///calculates the overlapping booking slots by this parameter
   ///This way you can have any other type used by your REST services, but this convert method
   ///will "serialize" it to a new type, because we only want to make calculation by the start and endDate
-  final List<DateTimeRange> Function({required dynamic streamResult})
-      convertStreamResultToDateTimeRanges;
+  final List<DateTimeRange> Function({required dynamic streamResult}) convertStreamResultToDateTimeRanges;
 
   ///when the user taps the booking button we will call this callback function
   /// and the updated [BookingService] will be passed to the parameters and you can use this
   /// in your HTTP function to upload the data to the database ([BookingService] implements JSON serializable)
 
-  final Future<dynamic> Function({required BookingService newBooking})
-      uploadBooking;
+  final Future<dynamic> Function({required BookingService newBooking}) uploadBooking;
 
   ///this will be display above the Booking Slots, which can be used to give the user
   ///extra informations of the booking calendar (like Colors: default)
@@ -89,6 +88,8 @@ class BookingCalendar extends StatelessWidget {
   final Color? selectedSlotColor;
   final Color? availableSlotColor;
   final Color? pauseSlotColor;
+  final Color? commonCardColor;
+  final Color? slotTextColor;
   final String? bookedSlotText;
   final String? selectedSlotText;
   final String? availableSlotText;
@@ -115,8 +116,7 @@ class BookingCalendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => BookingController(
-          bookingService: bookingService, pauseSlots: pauseSlots),
+      create: (_) => BookingController(bookingService: bookingService, pauseSlots: pauseSlots),
       child: BookingCalendarMain(
         key: key,
         getBookingStream: getBookingStream,
@@ -127,8 +127,7 @@ class BookingCalendar extends StatelessWidget {
         bookingGridChildAspectRatio: bookingGridChildAspectRatio,
         bookingGridCrossAxisCount: bookingGridCrossAxisCount,
         formatDateTime: formatDateTime,
-        convertStreamResultToDateTimeRanges:
-            convertStreamResultToDateTimeRanges,
+        convertStreamResultToDateTimeRanges: convertStreamResultToDateTimeRanges,
         availableSlotColor: availableSlotColor,
         availableSlotText: availableSlotText,
         bookedSlotColor: bookedSlotColor,
@@ -141,6 +140,8 @@ class BookingCalendar extends StatelessWidget {
         uploadingWidget: uploadingWidget,
         pauseSlotColor: pauseSlotColor,
         pauseSlotText: pauseSlotText,
+        commonCardColor: commonCardColor,
+        slotTextColor: slotTextColor,
         hideBreakTime: hideBreakTime,
       ),
     );

@@ -34,15 +34,14 @@ class BookingCalendarMain extends StatefulWidget {
     this.uploadingWidget,
     this.pauseSlotColor,
     this.pauseSlotText,
+    this.slotTextColor,
+    this.commonCardColor,
     this.hideBreakTime = false,
   }) : super(key: key);
 
-  final Stream<dynamic>? Function(
-      {required DateTime start, required DateTime end}) getBookingStream;
-  final Future<dynamic> Function({required BookingService newBooking})
-      uploadBooking;
-  final List<DateTimeRange> Function({required dynamic streamResult})
-      convertStreamResultToDateTimeRanges;
+  final Stream<dynamic>? Function({required DateTime start, required DateTime end}) getBookingStream;
+  final Future<dynamic> Function({required BookingService newBooking}) uploadBooking;
+  final List<DateTimeRange> Function({required dynamic streamResult}) convertStreamResultToDateTimeRanges;
 
   ///Customizable
   final Widget? bookingExplanation;
@@ -55,7 +54,8 @@ class BookingCalendarMain extends StatefulWidget {
   final Color? selectedSlotColor;
   final Color? availableSlotColor;
   final Color? pauseSlotColor;
-
+  final Color? slotTextColor;
+  final Color? commonCardColor;
   final String? bookedSlotText;
   final String? selectedSlotText;
   final String? availableSlotText;
@@ -114,13 +114,13 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
             : Column(
                 children: [
                   CommonCard(
+                    color: widget.commonCardColor,
                     child: TableCalendar(
                       firstDay: DateTime.now(),
                       lastDay: DateTime.now().add(const Duration(days: 1000)),
                       focusedDay: _focusedDay,
                       calendarFormat: _calendarFormat,
-                      calendarStyle:
-                          const CalendarStyle(isTodayHighlighted: true),
+                      calendarStyle: const CalendarStyle(isTodayHighlighted: true),
                       selectedDayPredicate: (day) {
                         return isSameDay(_selectedDay, day);
                       },
@@ -153,28 +153,15 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
                         runSpacing: 8.0,
                         direction: Axis.horizontal,
                         children: [
-                          BookingExplanation(
-                              color: widget.availableSlotColor ??
-                                  Colors.greenAccent,
-                              text: widget.availableSlotText ?? "Available"),
-                          BookingExplanation(
-                              color: widget.selectedSlotColor ??
-                                  Colors.orangeAccent,
-                              text: widget.selectedSlotText ?? "Selected"),
-                          BookingExplanation(
-                              color: widget.bookedSlotColor ?? Colors.redAccent,
-                              text: widget.bookedSlotText ?? "Booked"),
-                          if (widget.hideBreakTime != null &&
-                              widget.hideBreakTime == false)
-                            BookingExplanation(
-                                color: widget.pauseSlotColor ?? Colors.grey,
-                                text: widget.pauseSlotText ?? "Break"),
+                          BookingExplanation(color: widget.availableSlotColor ?? Colors.greenAccent, text: widget.availableSlotText ?? "Available"),
+                          BookingExplanation(color: widget.selectedSlotColor ?? Colors.orangeAccent, text: widget.selectedSlotText ?? "Selected"),
+                          BookingExplanation(color: widget.bookedSlotColor ?? Colors.redAccent, text: widget.bookedSlotText ?? "Booked"),
+                          if (widget.hideBreakTime != null && widget.hideBreakTime == false) BookingExplanation(color: widget.pauseSlotColor ?? Colors.grey, text: widget.pauseSlotText ?? "Break"),
                         ],
                       ),
                   const SizedBox(height: 8),
                   StreamBuilder<dynamic>(
-                    stream: widget.getBookingStream(
-                        start: startOfDay, end: endOfDay),
+                    stream: widget.getBookingStream(start: startOfDay, end: endOfDay),
                     builder: (context, snapshot) {
                       if (snapshot.hasError) {
                         return widget.errorWidget ??
@@ -184,24 +171,19 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
                       }
 
                       if (!snapshot.hasData) {
-                        return widget.loadingWidget ??
-                            const Center(child: CircularProgressIndicator());
+                        return widget.loadingWidget ?? const Center(child: CircularProgressIndicator());
                       }
 
                       ///this snapshot should be converted to List<DateTimeRange>
                       final data = snapshot.requireData;
-                      controller.generateBookedSlots(
-                          widget.convertStreamResultToDateTimeRanges(
-                              streamResult: data));
+                      controller.generateBookedSlots(widget.convertStreamResultToDateTimeRanges(streamResult: data));
 
                       return Expanded(
                         child: GridView.builder(
-                          physics: widget.gridScrollPhysics ??
-                              const BouncingScrollPhysics(),
+                          physics: widget.gridScrollPhysics ?? const BouncingScrollPhysics(),
                           itemCount: controller.allBookingSlots.length,
                           itemBuilder: (context, index) {
-                            final slot =
-                                controller.allBookingSlots.elementAt(index);
+                            final slot = controller.allBookingSlots.elementAt(index);
 
                             return BookingSlot(
                               hideBreakSlot: widget.hideBreakTime,
@@ -215,18 +197,15 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
                               onTap: () => controller.selectSlot(index),
                               child: Center(
                                 child: Text(
-                                  widget.formatDateTime?.call(slot) ??
-                                      BookingUtil.formatDateTime(slot),
+                                  widget.formatDateTime?.call(slot) ?? BookingUtil.formatDateTime(slot),
+                                  style: TextStyle(color: widget.slotTextColor),
                                 ),
                               ),
                             );
                           },
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount:
-                                widget.bookingGridCrossAxisCount ?? 3,
-                            childAspectRatio:
-                                widget.bookingGridChildAspectRatio ?? 1.5,
+                          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: widget.bookingGridCrossAxisCount ?? 3,
+                            childAspectRatio: widget.bookingGridChildAspectRatio ?? 1.5,
                           ),
                         ),
                       );
@@ -239,9 +218,7 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
                     text: widget.bookingButtonText ?? 'BOOK',
                     onTap: () async {
                       controller.toggleUploading();
-                      await widget.uploadBooking(
-                          newBooking:
-                              controller.generateNewBookingForUploading());
+                      await widget.uploadBooking(newBooking: controller.generateNewBookingForUploading());
                       controller.toggleUploading();
                       controller.resetSelectedSlot();
                     },
