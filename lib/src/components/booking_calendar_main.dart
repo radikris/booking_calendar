@@ -84,8 +84,8 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
     super.initState();
     controller = context.read<BookingController>();
 
-    startOfDay = now.startOfDay;
-    endOfDay = now.endOfDay;
+    startOfDay = now.startOfDayService(controller.serviceOpening!);
+    endOfDay = now.endOfDayService(controller.serviceClosing!);
     _focusedDay = now;
     _selectedDay = now;
   }
@@ -98,8 +98,10 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
   late DateTime endOfDay;
 
   void selectNewDateRange() {
-    startOfDay = _selectedDay.startOfDay;
-    endOfDay = _selectedDay.add(const Duration(days: 1)).endOfDay;
+    startOfDay = _selectedDay.startOfDayService(controller.serviceOpening!);
+    endOfDay = _selectedDay
+        .add(const Duration(days: 1))
+        .endOfDayService(controller.serviceClosing!);
 
     controller.base = startOfDay;
     controller.resetSelectedSlot();

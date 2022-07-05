@@ -1,3 +1,6 @@
+## 1.1.4
+- Updated generation of slots algorithm
+
 ## 1.1.3
 - Updated Readme with Firebase example and code snippets
 
