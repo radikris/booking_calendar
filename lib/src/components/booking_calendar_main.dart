@@ -5,9 +5,12 @@ import 'package:booking_calendar/src/components/common_button.dart';
 import 'package:booking_calendar/src/components/common_card.dart';
 import 'package:booking_calendar/src/core/booking_controller.dart';
 import 'package:booking_calendar/src/model/booking_service.dart';
+import 'package:booking_calendar/src/model/enums.dart' as bc;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:table_calendar/table_calendar.dart' as tc
+    show StartingDayOfWeek;
 import 'package:booking_calendar/src/util/booking_util.dart';
 
 class BookingCalendarMain extends StatefulWidget {
@@ -36,6 +39,7 @@ class BookingCalendarMain extends StatefulWidget {
     this.pauseSlotText,
     this.hideBreakTime = false,
     this.locale,
+    this.startingDayOfWeek,
   }) : super(key: key);
 
   final Stream<dynamic>? Function(
@@ -70,6 +74,7 @@ class BookingCalendarMain extends StatefulWidget {
   final bool? hideBreakTime;
 
   final String? locale;
+  final bc.StartingDayOfWeek? startingDayOfWeek;
 
   @override
   State<BookingCalendarMain> createState() => _BookingCalendarMainState();
@@ -120,6 +125,8 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
                 children: [
                   CommonCard(
                     child: TableCalendar(
+                      startingDayOfWeek: widget.startingDayOfWeek?.toTC() ??
+                          tc.StartingDayOfWeek.monday,
                       locale: widget.locale,
                       firstDay: DateTime.now(),
                       lastDay: DateTime.now().add(const Duration(days: 1000)),
@@ -208,7 +215,6 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
                           itemBuilder: (context, index) {
                             final slot =
                                 controller.allBookingSlots.elementAt(index);
-
                             return BookingSlot(
                               hideBreakSlot: widget.hideBreakTime,
                               pauseSlotColor: widget.pauseSlotColor,

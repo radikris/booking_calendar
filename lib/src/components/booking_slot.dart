@@ -43,7 +43,7 @@ class BookingSlot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return (hideBreakSlot != null && hideBreakSlot == true)
+    return (hideBreakSlot != null && hideBreakSlot == true && isPauseTime)
         ? const SizedBox()
         : GestureDetector(
             onTap: (!isBooked && !isPauseTime) ? onTap : null,

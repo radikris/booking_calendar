@@ -1,6 +1,7 @@
 import 'package:booking_calendar/src/components/booking_calendar_main.dart';
 import 'package:booking_calendar/src/core/booking_controller.dart';
 import 'package:booking_calendar/src/model/booking_service.dart';
+import 'package:booking_calendar/src/model/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -32,6 +33,7 @@ class BookingCalendar extends StatelessWidget {
     this.pauseSlots,
     this.hideBreakTime,
     this.locale,
+    this.startingDayOfWeek = StartingDayOfWeek.monday,
   }) : super(key: key);
 
   ///for the Calendar picker we use: [TableCalendar]
@@ -116,6 +118,9 @@ class BookingCalendar extends StatelessWidget {
   ///for localizing the calendar, String code to locale property. (intl format) See: [https://pub.dev/packages/table_calendar#locale]
   final String? locale;
 
+  ///What is the default starting day of the week in the tablecalendar. See [https://pub.dev/documentation/table_calendar/latest/table_calendar/StartingDayOfWeek.html]
+  final StartingDayOfWeek? startingDayOfWeek;
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -147,6 +152,7 @@ class BookingCalendar extends StatelessWidget {
         pauseSlotText: pauseSlotText,
         hideBreakTime: hideBreakTime,
         locale: locale,
+        startingDayOfWeek: startingDayOfWeek,
       ),
     );
   }

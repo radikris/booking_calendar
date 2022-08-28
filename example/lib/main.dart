@@ -93,6 +93,7 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
               loadingWidget: const Text('Fetching data...'),
               uploadingWidget: const CircularProgressIndicator(),
               locale: 'hu_HU',
+              startingDayOfWeek: StartingDayOfWeek.tuesday,
             ),
           ),
         ));

@@ -1,3 +1,6 @@
+## 1.1.5
+- Fixed breaktime issue and added StartingDayOfWeek optional parameter for the TableCalendar
+
 ## 1.1.4
 - Updated generation of slots algorithm
 
