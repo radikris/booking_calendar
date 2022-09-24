@@ -18,7 +18,7 @@ class BookingUtil {
   }
 
   static String formatDateTime(DateTime dt) {
-    return DateFormat.Hm().format(dt);
+    return DateFormat.jm().format(dt);
   }
 }
 

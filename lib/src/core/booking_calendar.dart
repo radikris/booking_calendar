@@ -34,6 +34,7 @@ class BookingCalendar extends StatelessWidget {
     this.hideBreakTime,
     this.locale,
     this.startingDayOfWeek = StartingDayOfWeek.monday,
+    this.bookingsucessdialog,
   }) : super(key: key);
 
   ///for the Calendar picker we use: [TableCalendar]
@@ -121,6 +122,9 @@ class BookingCalendar extends StatelessWidget {
   ///What is the default starting day of the week in the tablecalendar. See [https://pub.dev/documentation/table_calendar/latest/table_calendar/StartingDayOfWeek.html]
   final StartingDayOfWeek? startingDayOfWeek;
 
+  /// Booking Sucess Diloge
+  final Widget? bookingsucessdialog;
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -129,6 +133,7 @@ class BookingCalendar extends StatelessWidget {
       child: BookingCalendarMain(
         key: key,
         getBookingStream: getBookingStream,
+        bookingsucessdialog: bookingsucessdialog,
         uploadBooking: uploadBooking,
         bookingButtonColor: bookingButtonColor,
         bookingButtonText: bookingButtonText,

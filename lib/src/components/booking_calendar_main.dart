@@ -39,7 +39,7 @@ class BookingCalendarMain extends StatefulWidget {
     this.pauseSlotText,
     this.hideBreakTime = false,
     this.locale,
-    this.startingDayOfWeek,
+    this.startingDayOfWeek, Widget? bookingsucessdialog,
   }) : super(key: key);
 
   final Stream<dynamic>? Function(
@@ -120,7 +120,7 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
       builder: (_, controller, __) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         child: (controller.isUploading)
-            ? widget.uploadingWidget ?? const BookingDialog()
+            ? widget.uploadingWidget ?? const BookingSucessDialog()
             : Column(
                 children: [
                   CommonCard(
@@ -256,6 +256,11 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
                               controller.generateNewBookingForUploading());
                       controller.toggleUploading();
                       controller.resetSelectedSlot();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: ((context) =>
+                                  const BookingSucessDialog())));
                     },
                     isDisabled: controller.selectedSlot == -1,
                     buttonActiveColor: widget.bookingButtonColor,
