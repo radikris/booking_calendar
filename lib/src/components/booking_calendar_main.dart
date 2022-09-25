@@ -40,6 +40,7 @@ class BookingCalendarMain extends StatefulWidget {
     this.hideBreakTime = false,
     this.locale,
     this.startingDayOfWeek,
+    this.disabledDays,
   }) : super(key: key);
 
   final Stream<dynamic>? Function(
@@ -75,6 +76,7 @@ class BookingCalendarMain extends StatefulWidget {
 
   final String? locale;
   final bc.StartingDayOfWeek? startingDayOfWeek;
+  final List<int>? disabledDays;
 
   @override
   State<BookingCalendarMain> createState() => _BookingCalendarMainState();
@@ -88,11 +90,12 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
   void initState() {
     super.initState();
     controller = context.read<BookingController>();
+    final firstDay = calculateFirstDay();
 
-    startOfDay = now.startOfDayService(controller.serviceOpening!);
-    endOfDay = now.endOfDayService(controller.serviceClosing!);
-    _focusedDay = now;
-    _selectedDay = now;
+    startOfDay = firstDay.startOfDayService(controller.serviceOpening!);
+    endOfDay = firstDay.endOfDayService(controller.serviceClosing!);
+    _focusedDay = firstDay;
+    _selectedDay = firstDay;
   }
 
   CalendarFormat _calendarFormat = CalendarFormat.twoWeeks;
@@ -112,6 +115,26 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
     controller.resetSelectedSlot();
   }
 
+  DateTime calculateFirstDay() {
+    final now = DateTime.now();
+    if (widget.disabledDays != null) {
+      return widget.disabledDays!.contains(now.weekday)
+          ? now.add(Duration(days: getFirstMissingDay(now.weekday)))
+          : now;
+    } else {
+      return DateTime.now();
+    }
+  }
+
+  int getFirstMissingDay(int now) {
+    for (var i = 1; i <= 7; i++) {
+      if (!widget.disabledDays!.contains(now + i)) {
+        return i;
+      }
+    }
+    return -1;
+  }
+
   @override
   Widget build(BuildContext context) {
     controller = context.watch<BookingController>();
@@ -127,8 +150,12 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
                     child: TableCalendar(
                       startingDayOfWeek: widget.startingDayOfWeek?.toTC() ??
                           tc.StartingDayOfWeek.monday,
+                      enabledDayPredicate: (day) {
+                        if (widget.disabledDays == null) return true;
+                        return !widget.disabledDays!.contains(day.weekday);
+                      },
                       locale: widget.locale,
-                      firstDay: DateTime.now(),
+                      firstDay: calculateFirstDay(),
                       lastDay: DateTime.now().add(const Duration(days: 1000)),
                       focusedDay: _focusedDay,
                       calendarFormat: _calendarFormat,

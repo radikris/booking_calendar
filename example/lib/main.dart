@@ -47,6 +47,8 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
 
   List<DateTimeRange> convertStreamResultMock({required dynamic streamResult}) {
     ///here you can parse the streamresult and convert to [List<DateTimeRange>]
+    ///take care this is only mock, so if you add today as disabledDays it will still be visible on the first load
+    ///disabledDays will properly work with real data
     DateTime first = now;
     DateTime second = now.add(const Duration(minutes: 55));
     DateTime third = now.subtract(const Duration(minutes: 240));
@@ -94,6 +96,7 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
               uploadingWidget: const CircularProgressIndicator(),
               locale: 'hu_HU',
               startingDayOfWeek: StartingDayOfWeek.tuesday,
+              disabledDays: const [6, 7],
             ),
           ),
         ));

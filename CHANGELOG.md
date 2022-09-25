@@ -1,3 +1,6 @@
+## 1.1.6
+- Added disabledDays options, on these day no one can book a slot
+
 ## 1.1.5
 - Fixed breaktime issue and added StartingDayOfWeek optional parameter for the TableCalendar
 

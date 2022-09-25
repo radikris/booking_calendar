@@ -56,7 +56,9 @@ Check the Demo Example for more Information
         pauseSlotColor: pauseSlotColor,
         pauseSlotText: pauseSlotText,
         hideBreakTime: hideBreakTime,
-        locale: locale
+        locale: locale,
+        disabledDays: disabledDays,
+        startingDayOfWeek: startingDayOfWeek,
     );
   }
 ```
@@ -152,8 +154,8 @@ So after the Firebase init, we can access the Firestore collection.
     ///here you can parse the streamresult and convert to [List<DateTimeRange>]
     ///Note that this is dynamic, so you need to know what properties are available on your result, in our case the [SportBooking] has bookingStart and bookingEnd property
       List<DateTimeRange> converted = []
-      for (var i = 0; i < data.size; i++) {
-        final item = data.docs[i].data();
+      for (var i = 0; i < streamResult.size; i++) {
+        final item = streamResult.docs[i].data();
         converted.add(DateTimeRange(start: (item.bookingStart!), end: (item.bookingEnd!)));
       }
   return converted;
