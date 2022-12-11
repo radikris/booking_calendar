@@ -34,7 +34,8 @@ class BookingCalendar extends StatelessWidget {
       this.hideBreakTime,
       this.locale,
       this.startingDayOfWeek = StartingDayOfWeek.monday,
-      this.disabledDays})
+      this.disabledDays,
+      this.lastDay})
       : super(key: key);
 
   ///for the Calendar picker we use: [TableCalendar]
@@ -126,6 +127,9 @@ class BookingCalendar extends StatelessWidget {
   ///if you pass a number which includes "Today" as well, the first and focused day in the calendar will be the first available day after today
   final List<int>? disabledDays;
 
+  ///The last date which can be picked in the calendar, everything after this will be disabled
+  final DateTime? lastDay;
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -159,6 +163,7 @@ class BookingCalendar extends StatelessWidget {
         locale: locale,
         startingDayOfWeek: startingDayOfWeek,
         disabledDays: disabledDays,
+        lastDay: lastDay,
       ),
     );
   }

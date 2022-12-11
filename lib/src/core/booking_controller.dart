@@ -32,6 +32,21 @@ class BookingController extends ChangeNotifier {
   int get selectedSlot => _selectedSlot;
   bool get isUploading => _isUploading;
 
+  bool _successfullUploaded = false;
+  bool get isSuccessfullUploaded => _successfullUploaded;
+
+  void initBack() {
+    _isUploading = false;
+    _successfullUploaded = false;
+  }
+
+  void selectFirstDayByHoliday(DateTime first, DateTime firstEnd) {
+    serviceOpening = first;
+    serviceClosing = firstEnd;
+    base = first;
+    _generateBookingSlots();
+  }
+
   void _generateBookingSlots() {
     allBookingSlots.clear();
     _allBookingSlots = List.generate(

@@ -1,3 +1,5 @@
+## 1.1.7
+- Added lastDay option, and fixed booking date if today is inside the disableddays.
 ## 1.1.6
 - Added disabledDays options, on these day no one can book a slot
 

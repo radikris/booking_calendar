@@ -41,6 +41,7 @@ class BookingCalendarMain extends StatefulWidget {
     this.locale,
     this.startingDayOfWeek,
     this.disabledDays,
+    this.lastDay,
   }) : super(key: key);
 
   final Stream<dynamic>? Function(
@@ -73,7 +74,7 @@ class BookingCalendarMain extends StatefulWidget {
   final Widget? uploadingWidget;
 
   final bool? hideBreakTime;
-
+  final DateTime? lastDay;
   final String? locale;
   final bc.StartingDayOfWeek? startingDayOfWeek;
   final List<int>? disabledDays;
@@ -96,6 +97,7 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
     endOfDay = firstDay.endOfDayService(controller.serviceClosing!);
     _focusedDay = firstDay;
     _selectedDay = firstDay;
+    controller.selectFirstDayByHoliday(startOfDay, endOfDay);
   }
 
   CalendarFormat _calendarFormat = CalendarFormat.twoWeeks;
@@ -156,7 +158,8 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
                       },
                       locale: widget.locale,
                       firstDay: calculateFirstDay(),
-                      lastDay: DateTime.now().add(const Duration(days: 1000)),
+                      lastDay: widget.lastDay ??
+                          DateTime.now().add(const Duration(days: 1000)),
                       focusedDay: _focusedDay,
                       calendarFormat: _calendarFormat,
                       calendarStyle:
