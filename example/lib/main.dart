@@ -85,6 +85,14 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
           ),
           body: Center(
             child: BookingCalendar(
+              bookedSlotTextStyle:
+                  const TextStyle(color: Colors.red, fontSize: 24),
+              availableSlotTextStyle:
+                  TextStyle(color: Colors.blue[900], fontSize: 24),
+              selectedSlotTextStyle: TextStyle(
+                  color: Colors.red[900],
+                  fontSize: 24,
+                  fontWeight: FontWeight.w500),
               bookingService: mockBookingService,
               convertStreamResultToDateTimeRanges: convertStreamResultMock,
               getBookingStream: getBookingStreamMock,

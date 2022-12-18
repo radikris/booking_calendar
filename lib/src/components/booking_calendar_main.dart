@@ -1,17 +1,18 @@
-import 'package:booking_calendar/src/components/booking_dialog.dart';
-import 'package:booking_calendar/src/components/booking_explanation.dart';
-import 'package:booking_calendar/src/components/booking_slot.dart';
-import 'package:booking_calendar/src/components/common_button.dart';
-import 'package:booking_calendar/src/components/common_card.dart';
-import 'package:booking_calendar/src/core/booking_controller.dart';
-import 'package:booking_calendar/src/model/booking_service.dart';
-import 'package:booking_calendar/src/model/enums.dart' as bc;
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:table_calendar/table_calendar.dart' as tc
     show StartingDayOfWeek;
-import 'package:booking_calendar/src/util/booking_util.dart';
+
+import '../core/booking_controller.dart';
+import '../model/booking_service.dart';
+import '../model/enums.dart' as bc;
+import '../util/booking_util.dart';
+import 'booking_dialog.dart';
+import 'booking_explanation.dart';
+import 'booking_slot.dart';
+import 'common_button.dart';
+import 'common_card.dart';
 
 class BookingCalendarMain extends StatefulWidget {
   const BookingCalendarMain({
@@ -29,8 +30,11 @@ class BookingCalendarMain extends StatefulWidget {
     this.selectedSlotColor,
     this.availableSlotColor,
     this.bookedSlotText,
+    this.bookedSlotTextStyle,
     this.selectedSlotText,
+    this.selectedSlotTextStyle,
     this.availableSlotText,
+    this.availableSlotTextStyle,
     this.gridScrollPhysics,
     this.loadingWidget,
     this.errorWidget,
@@ -63,10 +67,15 @@ class BookingCalendarMain extends StatefulWidget {
   final Color? availableSlotColor;
   final Color? pauseSlotColor;
 
+//Added optional TextStyle to available, booked and selected cards.
   final String? bookedSlotText;
   final String? selectedSlotText;
   final String? availableSlotText;
   final String? pauseSlotText;
+
+  final TextStyle? bookedSlotTextStyle;
+  final TextStyle? availableSlotTextStyle;
+  final TextStyle? selectedSlotTextStyle;
 
   final ScrollPhysics? gridScrollPhysics;
   final Widget? loadingWidget;
@@ -243,6 +252,16 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
                               const BouncingScrollPhysics(),
                           itemCount: controller.allBookingSlots.length,
                           itemBuilder: (context, index) {
+                            TextStyle? getTextStyle() {
+                              if (controller.isSlotBooked(index)) {
+                                return widget.bookedSlotTextStyle;
+                              } else if (index == controller.selectedSlot) {
+                                return widget.selectedSlotTextStyle;
+                              } else {
+                                return widget.availableSlotTextStyle;
+                              }
+                            }
+
                             final slot =
                                 controller.allBookingSlots.elementAt(index);
                             return BookingSlot(
@@ -259,6 +278,7 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
                                 child: Text(
                                   widget.formatDateTime?.call(slot) ??
                                       BookingUtil.formatDateTime(slot),
+                                  style: getTextStyle(),
                                 ),
                               ),
                             );

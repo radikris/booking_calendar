@@ -1,9 +1,10 @@
-import 'package:booking_calendar/src/components/booking_calendar_main.dart';
-import 'package:booking_calendar/src/core/booking_controller.dart';
-import 'package:booking_calendar/src/model/booking_service.dart';
-import 'package:booking_calendar/src/model/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+
+import '../components/booking_calendar_main.dart';
+import '../model/booking_service.dart';
+import '../model/enums.dart';
+import 'booking_controller.dart';
 
 class BookingCalendar extends StatelessWidget {
   const BookingCalendar(
@@ -24,6 +25,9 @@ class BookingCalendar extends StatelessWidget {
       this.bookedSlotText,
       this.selectedSlotText,
       this.availableSlotText,
+      this.availableSlotTextStyle,
+      this.selectedSlotTextStyle,
+      this.bookedSlotTextStyle,
       this.gridScrollPhysics,
       this.loadingWidget,
       this.errorWidget,
@@ -98,6 +102,9 @@ class BookingCalendar extends StatelessWidget {
   final String? selectedSlotText;
   final String? availableSlotText;
   final String? pauseSlotText;
+  final TextStyle? bookedSlotTextStyle;
+  final TextStyle? availableSlotTextStyle;
+  final TextStyle? selectedSlotTextStyle;
 
   ///The [ScrollPhysics] of the [GridView] which shows the Booking Calendar
   final ScrollPhysics? gridScrollPhysics;
@@ -147,6 +154,9 @@ class BookingCalendar extends StatelessWidget {
         formatDateTime: formatDateTime,
         convertStreamResultToDateTimeRanges:
             convertStreamResultToDateTimeRanges,
+        bookedSlotTextStyle: bookedSlotTextStyle,
+        availableSlotTextStyle: availableSlotTextStyle,
+        selectedSlotTextStyle: selectedSlotTextStyle,
         availableSlotColor: availableSlotColor,
         availableSlotText: availableSlotText,
         bookedSlotColor: bookedSlotColor,
