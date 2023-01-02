@@ -1,3 +1,5 @@
+## 1.1.8
+- Fixed slot generation bug, and added textstyle formatting.
 ## 1.1.7
 - Added lastDay option, and fixed booking date if today is inside the disableddays.
 ## 1.1.6

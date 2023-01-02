@@ -104,7 +104,7 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
               uploadingWidget: const CircularProgressIndicator(),
               locale: 'hu_HU',
               startingDayOfWeek: StartingDayOfWeek.tuesday,
-              disabledDays: const [6, 7],
+              disabledDays: const [2, 7],
             ),
           ),
         ));

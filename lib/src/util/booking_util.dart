@@ -36,5 +36,5 @@ extension DateTimeExt on DateTime {
   DateTime startOfDayService(DateTime service) =>
       DateTime(year, month, day, service.hour, service.minute);
   DateTime endOfDayService(DateTime service) =>
-      DateTime(year, month, day + 1, service.hour, service.minute);
+      DateTime(year, month, day, service.hour, service.minute);
 }
