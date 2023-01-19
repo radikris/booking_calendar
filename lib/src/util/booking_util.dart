@@ -31,8 +31,12 @@ extension DateTimeExt on DateTime {
     return isAfter(second) || isAtSameMomentAs(second);
   }
 
-  // DateTime get startOfDay => DateTime(year, month, day, 0, 0);
-  // DateTime get endOfDay => DateTime(year, month, day + 1, 0, 0);
+  bool isSameDate(DateTime other) {
+    return year == other.year && month == other.month && day == other.day;
+  }
+
+  DateTime get startOfDay => DateTime(year, month, day, 0, 0);
+  DateTime get endOfDay => DateTime(year, month, day + 1, 0, 0);
   DateTime startOfDayService(DateTime service) =>
       DateTime(year, month, day, service.hour, service.minute);
   DateTime endOfDayService(DateTime service) =>

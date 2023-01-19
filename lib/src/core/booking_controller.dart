@@ -55,6 +55,17 @@ class BookingController extends ChangeNotifier {
             .add(Duration(minutes: bookingService.serviceDuration) * index));
   }
 
+  bool isWholeDayBooked() {
+    bool isBooked = true;
+    for (var i = 0; i < allBookingSlots.length; i++) {
+      if (!isSlotBooked(i)) {
+        isBooked = false;
+        break;
+      }
+    }
+    return isBooked;
+  }
+
   int _maxServiceFitInADay() {
     ///if no serviceOpening and closing was provided we will calculate with 00:00-24:00
     int openingHours = 24;

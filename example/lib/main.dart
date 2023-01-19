@@ -50,6 +50,7 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
     ///take care this is only mock, so if you add today as disabledDays it will still be visible on the first load
     ///disabledDays will properly work with real data
     DateTime first = now;
+    DateTime tomorrow = now.add(Duration(days: 1));
     DateTime second = now.add(const Duration(minutes: 55));
     DateTime third = now.subtract(const Duration(minutes: 240));
     DateTime fourth = now.subtract(const Duration(minutes: 500));
@@ -61,6 +62,11 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
         start: third, end: third.add(const Duration(minutes: 15))));
     converted.add(DateTimeRange(
         start: fourth, end: fourth.add(const Duration(minutes: 50))));
+
+    //book whole day example
+    converted.add(DateTimeRange(
+        start: DateTime(tomorrow.year, tomorrow.month, tomorrow.day, 5, 0),
+        end: DateTime(tomorrow.year, tomorrow.month, tomorrow.day, 23, 0)));
     return converted;
   }
 
@@ -85,14 +91,6 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
           ),
           body: Center(
             child: BookingCalendar(
-              bookedSlotTextStyle:
-                  const TextStyle(color: Colors.red, fontSize: 24),
-              availableSlotTextStyle:
-                  TextStyle(color: Colors.blue[900], fontSize: 24),
-              selectedSlotTextStyle: TextStyle(
-                  color: Colors.red[900],
-                  fontSize: 24,
-                  fontWeight: FontWeight.w500),
               bookingService: mockBookingService,
               convertStreamResultToDateTimeRanges: convertStreamResultMock,
               getBookingStream: getBookingStreamMock,
@@ -104,7 +102,10 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
               uploadingWidget: const CircularProgressIndicator(),
               locale: 'hu_HU',
               startingDayOfWeek: StartingDayOfWeek.tuesday,
-              disabledDays: const [2, 7],
+              wholeDayIsBookedWidget:
+                  const Text('Sorry, for this day everything is booked'),
+              //disabledDates: [DateTime(2023, 1, 20)],
+              //disabledDays: [6, 7],
             ),
           ),
         ));

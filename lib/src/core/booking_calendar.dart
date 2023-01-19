@@ -32,6 +32,7 @@ class BookingCalendar extends StatelessWidget {
       this.loadingWidget,
       this.errorWidget,
       this.uploadingWidget,
+      this.wholeDayIsBookedWidget,
       this.pauseSlotColor,
       this.pauseSlotText,
       this.pauseSlots,
@@ -39,6 +40,7 @@ class BookingCalendar extends StatelessWidget {
       this.locale,
       this.startingDayOfWeek = StartingDayOfWeek.monday,
       this.disabledDays,
+      this.disabledDates,
       this.lastDay})
       : super(key: key);
 
@@ -118,6 +120,10 @@ class BookingCalendar extends StatelessWidget {
   ///Display your custom  widget while uploading data to your database
   final Widget? uploadingWidget;
 
+  ///Display your custom  widget if every slot is booked and you want to show something special
+  ///not only the red slots
+  final Widget? wholeDayIsBookedWidget;
+
   ///The pause time, where the slots won't be available
   final List<DateTimeRange>? pauseSlots;
 
@@ -136,6 +142,9 @@ class BookingCalendar extends StatelessWidget {
 
   ///The last date which can be picked in the calendar, everything after this will be disabled
   final DateTime? lastDay;
+
+  ///Concrete List of dates when the day is unavailable, eg: holiday, everything is booked or you need to close or something.
+  final List<DateTime>? disabledDates;
 
   @override
   Widget build(BuildContext context) {
@@ -167,6 +176,7 @@ class BookingCalendar extends StatelessWidget {
         loadingWidget: loadingWidget,
         errorWidget: errorWidget,
         uploadingWidget: uploadingWidget,
+        wholeDayIsBookedWidget: wholeDayIsBookedWidget,
         pauseSlotColor: pauseSlotColor,
         pauseSlotText: pauseSlotText,
         hideBreakTime: hideBreakTime,
@@ -174,6 +184,7 @@ class BookingCalendar extends StatelessWidget {
         startingDayOfWeek: startingDayOfWeek,
         disabledDays: disabledDays,
         lastDay: lastDay,
+        disabledDates: disabledDates,
       ),
     );
   }

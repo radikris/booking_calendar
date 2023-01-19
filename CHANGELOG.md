@@ -1,3 +1,6 @@
+## 1.1.9
+- Added disabledDates option (for Holidays or special events, like every slot is booked)
+- Added custom widget, to show if every slot is booked for the selected day
 ## 1.1.8
 - Fixed slot generation bug, and added textstyle formatting.
 ## 1.1.7
