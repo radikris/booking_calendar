@@ -198,6 +198,11 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
                         return isEnabled;
                       },
                       locale: widget.locale,
+                      availableCalendarFormats: const {
+                        CalendarFormat.month: 'Ver Mensal',
+                        CalendarFormat.twoWeeks: 'Ver 2 Semanas',
+                        CalendarFormat.week: 'Ver 1 Semana'
+                      },
                       firstDay: calculateFirstDay(),
                       lastDay: widget.lastDay ??
                           DateTime.now().add(const Duration(days: 1000)),
