@@ -10,9 +10,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  table_calendar: ^3.0.6
-  intl: ^0.17.0
-  provider: ^6.0.3
+  table_calendar: ^3.0.9
+  intl: ^0.18.0
+  provider: ^6.0.5
 
 dev_dependencies:
   flutter_test:
