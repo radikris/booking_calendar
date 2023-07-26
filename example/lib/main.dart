@@ -41,9 +41,27 @@ class _BookingCalendarDemoAppState
     return Stream.value([]);
   }
 
-  Future<dynamic> uploadBookingMock(
+  Future<dynamic> onBookSelected(BuildContext context,
       {required BookingService newBooking}) async {
     await Future.delayed(const Duration(seconds: 1));
+
+    if (mounted) {
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Booking Created'),
+          content: const Text('Your booking was successfully created.'),
+          actions: <Widget>[
+            OutlinedButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        ),
+      );
+    }
     converted.add(DateTimeRange(
         start: newBooking.bookingStart, end: newBooking.bookingEnd));
     print('${newBooking.toJson()} has been uploaded');
@@ -130,48 +148,50 @@ class _BookingCalendarDemoAppState
           // To use the Playground font, add GoogleFonts package and uncomment
           // fontFamily: GoogleFonts.notoSans().fontFamily,
         ),
-// If you do not have a themeMode switch, uncomment this line
-// to let the device system mode control the theme mode:
-// themeMode: ThemeMode.system,
-
         themeMode: themeMode,
-        home: Scaffold(
-          appBar: AppBar(
-            title: const Text('Booking Calendar Demo'),
-            actions: [
-              IconButton(
-                  onPressed: () {
-                    ref.read(themeModeProvider.notifier).state =
-                        themeMode == ThemeMode.dark
-                            ? ThemeMode.light
-                            : ThemeMode.dark;
-                  },
-                  icon: Icon(
-                    themeMode == ThemeMode.dark
-                        ? Icons.light_mode
-                        : Icons.dark_mode,
-                  ))
-            ],
-          ),
-          body: Center(
-            child: BookingCalendar(
-              bookingService: mockBookingService,
-              convertStreamResultToDateTimeRanges: convertStreamResultMock,
-              getBookingStream: getBookingStreamMock,
-              uploadBooking: uploadBookingMock,
-              pauseSlots: generatePauseSlots(),
-              pauseSlotText: 'LUNCH',
-              hideBreakTime: false,
-              loadingWidget: const Text('Fetching data...'),
-              uploadingWidget: const CircularProgressIndicator(),
-              locale: 'hu_HU',
-              startingDayOfWeek: StartingDayOfWeek.tuesday,
-              wholeDayIsBookedWidget:
-                  const Text('Sorry, for this day everything is booked'),
-              //disabledDates: [DateTime(2023, 1, 20)],
-              //disabledDays: [6, 7],
+        // To avoid error of MaterialLocalizations because we are going to
+        // show a Dialog in the `onBookSelected` functions
+        home: Builder(builder: (context) {
+          return Scaffold(
+            appBar: AppBar(
+              title: const Text('Booking Calendar Demo'),
+              actions: [
+                IconButton(
+                    onPressed: () {
+                      ref.read(themeModeProvider.notifier).state =
+                          themeMode == ThemeMode.dark
+                              ? ThemeMode.light
+                              : ThemeMode.dark;
+                    },
+                    icon: Icon(
+                      themeMode == ThemeMode.dark
+                          ? Icons.light_mode
+                          : Icons.dark_mode,
+                    ))
+              ],
             ),
-          ),
-        ));
+            body: Center(
+              child: BookingCalendar(
+                bookingService: mockBookingService,
+                convertStreamResultToDateTimeRanges: convertStreamResultMock,
+                getBookingStream: getBookingStreamMock,
+                onBookSelected: (BookingService newBooking) async {
+                  await onBookSelected(context, newBooking: newBooking);
+                },
+                pauseSlots: generatePauseSlots(),
+                pauseSlotText: 'LUNCH',
+                hideBreakTime: false,
+                loadingWidget: const Text('Fetching data...'),
+                // uploadingWidget: const CircularProgressIndicator(),
+                locale: 'hu_HU',
+                startingDayOfWeek: StartingDayOfWeek.tuesday,
+                wholeDayIsBookedWidget:
+                    const Text('Sorry, for this day everything is booked'),
+                //disabledDates: [DateTime(2023, 1, 20)],
+                //disabledDays: [6, 7],
+              ),
+            ),
+          );
+        }));
   }
 }

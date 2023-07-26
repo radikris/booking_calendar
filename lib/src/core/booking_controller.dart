@@ -27,16 +27,16 @@ class BookingController extends ChangeNotifier {
   List<DateTimeRange>? pauseSlots = [];
 
   int _selectedSlot = (-1);
-  bool _isUploading = false;
+  // bool _isUploading = false;
 
   int get selectedSlot => _selectedSlot;
-  bool get isUploading => _isUploading;
+  // bool get isUploading => _isUploading;
 
   bool _successfullUploaded = false;
   bool get isSuccessfullUploaded => _successfullUploaded;
 
   void initBack() {
-    _isUploading = false;
+    // _isUploading = false;
     _successfullUploaded = false;
   }
 
@@ -102,10 +102,10 @@ class BookingController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void toggleUploading() {
-    _isUploading = !_isUploading;
-    notifyListeners();
-  }
+  // void toggleUploading() {
+  //   // _isUploading = !_isUploading;
+  //   notifyListeners();
+  // }
 
   Future<void> generateBookedSlots(List<DateTimeRange> data) async {
     bookedSlots.clear();

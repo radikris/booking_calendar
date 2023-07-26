@@ -1,6 +1,7 @@
 import 'package:booking_calendar/src/components/common_card.dart';
 import 'package:flutter/material.dart';
 
+// TODO: This will be deleted in the next version
 class BookingDialog extends StatelessWidget {
   const BookingDialog({Key? key}) : super(key: key);
 

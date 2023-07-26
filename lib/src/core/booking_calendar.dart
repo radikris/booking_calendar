@@ -11,8 +11,11 @@ class BookingCalendar extends StatelessWidget {
       {Key? key,
       required this.bookingService,
       required this.getBookingStream,
-      required this.uploadBooking,
+      @Deprecated(
+          'In next version this will be deleted, use onBookSelected instead')
+      this.uploadBooking,
       required this.convertStreamResultToDateTimeRanges,
+      this.onBookSelected,
       this.bookingExplanation,
       this.bookingGridCrossAxisCount,
       this.bookingGridChildAspectRatio,
@@ -31,7 +34,7 @@ class BookingCalendar extends StatelessWidget {
       this.gridScrollPhysics,
       this.loadingWidget,
       this.errorWidget,
-      this.uploadingWidget,
+      // this.uploadingWidget,
       this.wholeDayIsBookedWidget,
       this.pauseSlotColor,
       this.pauseSlotText,
@@ -70,9 +73,24 @@ class BookingCalendar extends StatelessWidget {
   ///when the user taps the booking button we will call this callback function
   /// and the updated [BookingService] will be passed to the parameters and you can use this
   /// in your HTTP function to upload the data to the database ([BookingService] implements JSON serializable)
+  @Deprecated(
+      'In next version this will be deleted, use onBookSelected instead')
+  final Future<void> Function(BookingService newBooking)? uploadBooking;
 
-  final Future<dynamic> Function({required BookingService newBooking})
-      uploadBooking;
+  /// `onBookSelected` is a callback function that's called when a booking slot
+  /// is selected by the user.
+  ///
+  /// It's a `Future` function that takes a `BookingService` object as its argument.
+  /// The `BookingService` object, `newBooking`, represents the booking slot
+  /// that the user has selected.
+  ///
+  /// This function is meant to handle the action of booking a slot. Typically,
+  /// this would involve sending the booking data to a server and waiting for
+  /// a response to confirm the booking.
+  ///
+  /// This function should be provided by the parent widget or the application
+  /// using the `BookingCalendar` widget.
+  final Future<void> Function(BookingService newBooking)? onBookSelected;
 
   ///this will be display above the Booking Slots, which can be used to give the user
   ///extra informations of the booking calendar (like Colors: default)
@@ -117,8 +135,8 @@ class BookingCalendar extends StatelessWidget {
   ///Display your custom error widget if any error recurred while fetching data from [Stream]
   final Widget? errorWidget;
 
-  ///Display your custom  widget while uploading data to your database
-  final Widget? uploadingWidget;
+  // ///Display your custom  widget while uploading data to your database
+  // final Widget? uploadingWidget;
 
   ///Display your custom  widget if every slot is booked and you want to show something special
   ///not only the red slots
@@ -154,7 +172,7 @@ class BookingCalendar extends StatelessWidget {
       child: BookingCalendarMain(
         key: key,
         getBookingStream: getBookingStream,
-        uploadBooking: uploadBooking,
+        onBookSelected: onBookSelected ?? uploadBooking,
         bookingButtonColor: bookingButtonColor,
         bookingButtonText: bookingButtonText,
         bookingExplanation: bookingExplanation,
@@ -175,7 +193,7 @@ class BookingCalendar extends StatelessWidget {
         gridScrollPhysics: gridScrollPhysics,
         loadingWidget: loadingWidget,
         errorWidget: errorWidget,
-        uploadingWidget: uploadingWidget,
+        // uploadingWidget: uploadingWidget,
         wholeDayIsBookedWidget: wholeDayIsBookedWidget,
         pauseSlotColor: pauseSlotColor,
         pauseSlotText: pauseSlotText,
