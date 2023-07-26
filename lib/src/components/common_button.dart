@@ -4,7 +4,7 @@ class CommonButton extends StatelessWidget {
   const CommonButton({
     Key? key,
     required this.text,
-    required this.onTap,
+    required this.onPressed,
     this.isActive = true,
     this.isDisabled = false,
     this.buttonStyle,
@@ -14,27 +14,27 @@ class CommonButton extends StatelessWidget {
   }) : super(key: key);
 
   final String text;
-  final VoidCallback onTap;
+  final VoidCallback onPressed;
   final bool? isActive;
   final bool? isDisabled;
-  final TextStyle? buttonStyle;
+  final ButtonStyle? buttonStyle;
+  final double? width;
   final Color? buttonActiveColor;
   final Color? buttonInActiveColor;
-  final double? width;
 
-  Color _getButtonColor() {
+  Color _getButtonColor(BuildContext context) {
     if (isActive == true && isDisabled == false) {
-      return buttonActiveColor ?? Colors.teal;
+      return buttonActiveColor ?? Theme.of(context).primaryColor;
     } else if (isActive == false && isDisabled == false) {
-      return Colors.white;
+      return Theme.of(context).cardColor;
     } else {
-      return buttonInActiveColor ?? Colors.teal.shade100;
+      return buttonInActiveColor ?? Theme.of(context).disabledColor;
     }
   }
 
-  Color _getTextColor() {
+  Color _getTextColor(BuildContext context) {
     if (isActive == true && isDisabled == false) {
-      return Colors.white;
+      return Theme.of(context).colorScheme.onPrimary;
     } else if (isActive == false && isDisabled == false) {
       return buttonActiveColor ?? Colors.teal;
     } else {
@@ -46,21 +46,23 @@ class CommonButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeData = Theme.of(context).textTheme;
 
-    return InkWell(
-      onTap: (isDisabled == null || isDisabled == false) ? onTap : null,
-      child: Container(
-        width: width ?? double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 12),
-        decoration: BoxDecoration(
-          color: _getButtonColor(),
-          borderRadius: const BorderRadius.all(Radius.circular(24)),
-          border: (isActive == false && isDisabled == false) ? Border.all(color: Colors.teal, width: 2) : null,
-        ),
-        child: Text(
-          text,
-          style: buttonStyle ?? themeData.button!.copyWith(color: _getTextColor()),
-          textAlign: TextAlign.center,
-        ),
+    return ElevatedButton(
+      onPressed: (isDisabled == null || isDisabled == false) ? onPressed : null,
+      style: buttonStyle ??
+          ElevatedButton.styleFrom(
+            backgroundColor: _getButtonColor(context),
+            foregroundColor: _getTextColor(context),
+            minimumSize: Size(width ?? double.infinity, 48),
+            // shape: const RoundedRectangleBorder(
+            //   borderRadius: BorderRadius.all(Radius.circular(24)),
+            // ),
+            side: (isActive == false && isDisabled == false)
+                ? const BorderSide(color: Colors.teal, width: 2)
+                : null,
+          ),
+      child: Text(
+        text,
+        style: themeData.labelLarge!.copyWith(color: _getTextColor(context)),
       ),
     );
   }

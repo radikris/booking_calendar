@@ -1,4 +1,5 @@
 import 'package:booking_calendar/src/components/common_card.dart';
+import 'package:booking_calendar/src/util/custom_colors.dart';
 import 'package:flutter/material.dart';
 
 class BookingSlot extends StatelessWidget {
@@ -27,17 +28,18 @@ class BookingSlot extends StatelessWidget {
   final Color? pauseSlotColor;
   final bool? hideBreakSlot;
 
-  Color getSlotColor() {
+  Color getSlotColor(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     if (isPauseTime) {
       return pauseSlotColor ?? Colors.grey;
     }
 
     if (isBooked) {
-      return bookedSlotColor ?? Colors.redAccent;
+      return bookedSlotColor ?? getBookedColor(isDarkMode);
     } else {
       return isSelected
-          ? selectedSlotColor ?? Colors.orangeAccent
-          : availableSlotColor ?? Colors.greenAccent;
+          ? selectedSlotColor ?? Theme.of(context).primaryColor
+          : availableSlotColor ?? getAvailableSlotColor(isDarkMode);
     }
   }
 
@@ -51,7 +53,7 @@ class BookingSlot extends StatelessWidget {
                 margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                color: getSlotColor(),
+                color: getSlotColor(context),
                 child: child),
           );
   }
