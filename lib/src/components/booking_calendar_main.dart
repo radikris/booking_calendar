@@ -16,41 +16,42 @@ import 'common_button.dart';
 import 'common_card.dart';
 
 class BookingCalendarMain extends StatefulWidget {
-  const BookingCalendarMain({
-    Key? key,
-    required this.getBookingStream,
-    required this.convertStreamResultToDateTimeRanges,
-    required this.uploadBooking,
-    this.bookingExplanation,
-    this.bookingGridCrossAxisCount,
-    this.bookingGridChildAspectRatio,
-    this.formatDateTime,
-    this.calendarBackgroundColor,
-    this.bookingButtonText,
-    this.bookingButtonColor,
-    this.bookedSlotColor,
-    this.selectedSlotColor,
-    this.availableSlotColor,
-    this.bookedSlotText,
-    this.bookedSlotTextStyle,
-    this.selectedSlotText,
-    this.selectedSlotTextStyle,
-    this.availableSlotText,
-    this.availableSlotTextStyle,
-    this.gridScrollPhysics,
-    this.loadingWidget,
-    this.errorWidget,
-    this.uploadingWidget,
-    this.wholeDayIsBookedWidget,
-    this.pauseSlotColor,
-    this.pauseSlotText,
-    this.hideBreakTime = false,
-    this.locale,
-    this.startingDayOfWeek,
-    this.disabledDays,
-    this.disabledDates,
-    this.lastDay,
-  }) : super(key: key);
+  const BookingCalendarMain(
+      {Key? key,
+      required this.getBookingStream,
+      required this.convertStreamResultToDateTimeRanges,
+      required this.uploadBooking,
+      this.bookingExplanation,
+      this.bookingGridCrossAxisCount,
+      this.bookingGridChildAspectRatio,
+      this.formatDateTime,
+      this.calendarBackgroundColor,
+      this.bookingButtonText,
+      this.bookingButtonColor,
+      this.bookedSlotColor,
+      this.selectedSlotColor,
+      this.availableSlotColor,
+      this.bookedSlotText,
+      this.bookedSlotTextStyle,
+      this.selectedSlotText,
+      this.selectedSlotTextStyle,
+      this.availableSlotText,
+      this.availableSlotTextStyle,
+      this.gridScrollPhysics,
+      this.loadingWidget,
+      this.errorWidget,
+      this.uploadingWidget,
+      this.wholeDayIsBookedWidget,
+      this.pauseSlotColor,
+      this.pauseSlotText,
+      this.hideBreakTime = false,
+      this.locale,
+      this.startingDayOfWeek,
+      this.disabledDays,
+      this.disabledDates,
+      this.lastDay,
+      this.calendarStyle})
+      : super(key: key);
 
   final Stream<dynamic>? Function(
       {required DateTime start, required DateTime end}) getBookingStream;
@@ -95,6 +96,8 @@ class BookingCalendarMain extends StatefulWidget {
   final List<DateTime>? disabledDates;
 
   final Widget? wholeDayIsBookedWidget;
+
+  final CalendarStyle? calendarStyle;
 
   @override
   State<BookingCalendarMain> createState() => _BookingCalendarMainState();
@@ -208,8 +211,21 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
                           DateTime.now().add(const Duration(days: 1000)),
                       focusedDay: _focusedDay,
                       calendarFormat: _calendarFormat,
-                      calendarStyle:
-                          const CalendarStyle(isTodayHighlighted: true),
+                      calendarStyle: widget.calendarStyle ??
+                          CalendarStyle(
+                            isTodayHighlighted: true,
+                            selectedDecoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.primary,
+                              shape: BoxShape.circle,
+                            ),
+                            todayDecoration: BoxDecoration(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .primary
+                                  .withOpacity(0.5),
+                              shape: BoxShape.circle,
+                            ),
+                          ),
                       selectedDayPredicate: (day) {
                         return isSameDay(_selectedDay, day);
                       },
