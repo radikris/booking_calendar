@@ -352,7 +352,7 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
                   ),
                   CommonButton(
                     text: widget.bookingButtonText ?? 'BOOK',
-                    onTap: () async {
+                    onPressed: () async {
                       controller.toggleUploading();
                       await widget.uploadBooking(
                           newBooking:
