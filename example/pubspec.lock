@@ -39,7 +39,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.1.9"
+    version: "1.2.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -160,6 +160,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  flex_color_scheme:
+    dependency: "direct main"
+    description:
+      name: flex_color_scheme
+      sha256: "659cf59bd5ccaa1e7de9384342be8b666ff10b108ed57a7fd46c122fb8bf6aca"
+      url: "https://pub.dev"
+    source: hosted
+    version: "7.2.0"
+  flex_seed_scheme:
+    dependency: transitive
+    description:
+      name: flex_seed_scheme
+      sha256: "29c12aba221eb8a368a119685371381f8035011d18de5ba277ad11d7dfb8657f"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.4.0"
   flutter:
     dependency: "direct main"
     description: flutter
@@ -173,6 +189,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.4"
+  flutter_riverpod:
+    dependency: "direct main"
+    description:
+      name: flutter_riverpod
+      sha256: b83ac5827baadefd331ea1d85110f34645827ea234ccabf53a655f41901a9bf4
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.6"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -290,6 +314,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.0"
+  riverpod:
+    dependency: transitive
+    description:
+      name: riverpod
+      sha256: "80e48bebc83010d5e67a11c9514af6b44bbac1ec77b4333c8ea65dbc79e2d8ef"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.6"
   simple_gesture_detector:
     dependency: transitive
     description:
@@ -327,6 +359,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.11.0"
+  state_notifier:
+    dependency: transitive
+    description:
+      name: state_notifier
+      sha256: "8fe42610f179b843b12371e40db58c9444f8757f8b69d181c97e50787caed289"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.7.2+1"
   stream_channel:
     dependency: transitive
     description:
@@ -400,5 +440,5 @@ packages:
     source: hosted
     version: "3.1.0"
 sdks:
-  dart: ">=3.0.0-0 <4.0.0"
-  flutter: ">=1.17.0"
+  dart: ">=3.0.0 <4.0.0"
+  flutter: ">=3.10.0"

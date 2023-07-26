@@ -22,19 +22,19 @@ class CommonButton extends StatelessWidget {
   final Color? buttonInActiveColor;
   final double? width;
 
-  Color _getButtonColor() {
+  Color _getButtonColor(BuildContext context) {
     if (isActive == true && isDisabled == false) {
-      return buttonActiveColor ?? Colors.teal;
+      return buttonActiveColor ?? Theme.of(context).primaryColor;
     } else if (isActive == false && isDisabled == false) {
-      return Colors.white;
+      return Theme.of(context).cardColor;
     } else {
-      return buttonInActiveColor ?? Colors.teal.shade100;
+      return buttonInActiveColor ?? Theme.of(context).disabledColor;
     }
   }
 
-  Color _getTextColor() {
+  Color _getTextColor(BuildContext context) {
     if (isActive == true && isDisabled == false) {
-      return Colors.white;
+      return Theme.of(context).colorScheme.onPrimary;
     } else if (isActive == false && isDisabled == false) {
       return buttonActiveColor ?? Colors.teal;
     } else {
@@ -52,13 +52,16 @@ class CommonButton extends StatelessWidget {
         width: width ?? double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 12),
         decoration: BoxDecoration(
-          color: _getButtonColor(),
+          color: _getButtonColor(context),
           borderRadius: const BorderRadius.all(Radius.circular(24)),
-          border: (isActive == false && isDisabled == false) ? Border.all(color: Colors.teal, width: 2) : null,
+          border: (isActive == false && isDisabled == false)
+              ? Border.all(color: Colors.teal, width: 2)
+              : null,
         ),
         child: Text(
           text,
-          style: buttonStyle ?? themeData.button!.copyWith(color: _getTextColor()),
+          style: buttonStyle ??
+              themeData.labelLarge!.copyWith(color: _getTextColor(context)),
           textAlign: TextAlign.center,
         ),
       ),

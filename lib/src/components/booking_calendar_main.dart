@@ -1,3 +1,4 @@
+import 'package:booking_calendar/src/util/custom_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
@@ -24,6 +25,7 @@ class BookingCalendarMain extends StatefulWidget {
     this.bookingGridCrossAxisCount,
     this.bookingGridChildAspectRatio,
     this.formatDateTime,
+    this.calendarBackgroundColor,
     this.bookingButtonText,
     this.bookingButtonColor,
     this.bookedSlotColor,
@@ -68,6 +70,7 @@ class BookingCalendarMain extends StatefulWidget {
   final Color? selectedSlotColor;
   final Color? availableSlotColor;
   final Color? pauseSlotColor;
+  final Color? calendarBackgroundColor;
 
 //Added optional TextStyle to available, booked and selected cards.
   final String? bookedSlotText;
@@ -153,6 +156,7 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
 
   @override
   Widget build(BuildContext context) {
+    final isDarkMode = Theme.of(context).brightness == Brightness.dark;
     controller = context.watch<BookingController>();
 
     return Consumer<BookingController>(
@@ -163,6 +167,7 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
             : Column(
                 children: [
                   CommonCard(
+                    color: widget.calendarBackgroundColor,
                     child: TableCalendar(
                       startingDayOfWeek: widget.startingDayOfWeek?.toTC() ??
                           tc.StartingDayOfWeek.monday,
@@ -239,14 +244,15 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
                         children: [
                           BookingExplanation(
                               color: widget.availableSlotColor ??
-                                  Colors.greenAccent,
+                                  getAvailableSlotColor(isDarkMode),
                               text: widget.availableSlotText ?? "Available"),
                           BookingExplanation(
                               color: widget.selectedSlotColor ??
-                                  Colors.orangeAccent,
+                                  Theme.of(context).primaryColor,
                               text: widget.selectedSlotText ?? "Selected"),
                           BookingExplanation(
-                              color: widget.bookedSlotColor ?? Colors.redAccent,
+                              color: widget.bookedSlotColor ??
+                                  getBookedColor(isDarkMode),
                               text: widget.bookedSlotText ?? "Booked"),
                           if (widget.hideBreakTime != null &&
                               widget.hideBreakTime == false)
@@ -317,7 +323,15 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
                                       child: Text(
                                         widget.formatDateTime?.call(slot) ??
                                             BookingUtil.formatDateTime(slot),
-                                        style: getTextStyle(),
+                                        style: getTextStyle() ??
+                                            Theme.of(context)
+                                                .textTheme
+                                                .labelMedium
+                                                ?.copyWith(
+                                                  color: Theme.of(context)
+                                                      .colorScheme
+                                                      .onPrimary,
+                                                ),
                                       ),
                                     ),
                                   );
