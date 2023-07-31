@@ -1,48 +1,72 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:table_calendar/table_calendar.dart';
 
 import '../components/booking_calendar_main.dart';
 import '../model/booking_service.dart';
-import '../model/enums.dart';
+import '../model/enums.dart' as bc;
 import 'booking_controller.dart';
 
 class BookingCalendar extends StatelessWidget {
-  const BookingCalendar(
-      {Key? key,
-      required this.bookingService,
-      required this.getBookingStream,
-      required this.uploadBooking,
-      required this.convertStreamResultToDateTimeRanges,
-      this.bookingExplanation,
-      this.bookingGridCrossAxisCount,
-      this.bookingGridChildAspectRatio,
-      this.formatDateTime,
-      this.bookingButtonText,
-      this.bookingButtonColor,
-      this.bookedSlotColor,
-      this.selectedSlotColor,
-      this.availableSlotColor,
-      this.bookedSlotText,
-      this.selectedSlotText,
-      this.availableSlotText,
-      this.availableSlotTextStyle,
-      this.selectedSlotTextStyle,
-      this.bookedSlotTextStyle,
-      this.gridScrollPhysics,
-      this.loadingWidget,
-      this.errorWidget,
-      this.uploadingWidget,
-      this.wholeDayIsBookedWidget,
-      this.pauseSlotColor,
-      this.pauseSlotText,
-      this.pauseSlots,
-      this.hideBreakTime,
-      this.locale,
-      this.startingDayOfWeek = StartingDayOfWeek.monday,
-      this.disabledDays,
-      this.disabledDates,
-      this.lastDay})
-      : super(key: key);
+  const BookingCalendar({
+    Key? key,
+    required this.bookingService,
+    required this.getBookingStream,
+    required this.uploadBooking,
+    required this.convertStreamResultToDateTimeRanges,
+    this.bookingExplanation,
+    this.bookingGridCrossAxisCount,
+    this.bookingGridChildAspectRatio,
+    this.formatDateTime,
+    this.bookingButtonText,
+    this.bookingButtonColor,
+    this.bookedSlotColor,
+    this.selectedSlotColor,
+    this.availableSlotColor,
+    this.bookedSlotText,
+    this.selectedSlotText,
+    this.availableSlotText,
+    this.availableSlotTextStyle,
+    this.selectedSlotTextStyle,
+    this.bookedSlotTextStyle,
+    this.gridScrollPhysics,
+    this.loadingWidget,
+    this.errorWidget,
+    this.uploadingWidget,
+    this.wholeDayIsBookedWidget,
+    this.pauseSlotColor,
+    this.pauseSlotText,
+    this.pauseSlots,
+    this.hideBreakTime,
+    this.locale,
+    this.startingDayOfWeek = bc.StartingDayOfWeek.monday,
+    this.disabledDays,
+    this.disabledDates,
+    this.lastDay,
+    this.calendarFormats,
+    this.defaultFormat,
+    this.monthText = "Month",
+    this.twoWeekText = "2 Weeks",
+    this.weekText = "Week",
+  }) : super(key: key);
+
+  /// Available Calendar Formats
+  /// {CalendarFormat.month: "Month",
+  /// CalendarFormat.twoWeeks: "2 Weeks",
+  /// CalendarFormat.week: "Week"}
+  final Map<bc.CalendarFormat, String>? calendarFormats;
+
+  /// Starting/Default calendarFormat
+  final bc.CalendarFormat? defaultFormat;
+
+  /// Text for Month
+  final String monthText;
+
+  /// Text for Two Weeks
+  final String twoWeekText;
+
+  /// Text for Week
+  final String weekText;
 
   ///for the Calendar picker we use: [TableCalendar]
   ///credit: https://pub.dev/packages/table_calendar
@@ -134,7 +158,7 @@ class BookingCalendar extends StatelessWidget {
   final String? locale;
 
   ///What is the default starting day of the week in the tablecalendar. See [https://pub.dev/documentation/table_calendar/latest/table_calendar/StartingDayOfWeek.html]
-  final StartingDayOfWeek? startingDayOfWeek;
+  final bc.StartingDayOfWeek? startingDayOfWeek;
 
   ///The days inside this list, won't be available in the calendar. Similarly to [DateTime.weekday] property, a week starts with Monday, which has the value 1. (Sunday=7)
   ///if you pass a number which includes "Today" as well, the first and focused day in the calendar will be the first available day after today
@@ -185,6 +209,11 @@ class BookingCalendar extends StatelessWidget {
         disabledDays: disabledDays,
         lastDay: lastDay,
         disabledDates: disabledDates,
+        defaultFormat: defaultFormat,
+        calendarFormats: calendarFormats,
+        monthText: monthText,
+        twoWeekText: twoWeekText,
+        weekText: weekText,
       ),
     );
   }

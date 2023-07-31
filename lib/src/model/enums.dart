@@ -1,5 +1,24 @@
 import 'package:table_calendar/table_calendar.dart' as tc
-    show StartingDayOfWeek;
+    show StartingDayOfWeek, CalendarFormat;
+
+enum CalendarFormat {
+  month,
+  twoWeeks,
+  week,
+}
+
+extension CalendarFormatX on CalendarFormat {
+  tc.CalendarFormat toTC() {
+    switch (this) {
+      case CalendarFormat.month:
+        return tc.CalendarFormat.month;
+      case CalendarFormat.twoWeeks:
+        return tc.CalendarFormat.twoWeeks;
+      case CalendarFormat.week:
+        return tc.CalendarFormat.week;
+    }
+  }
+}
 
 enum StartingDayOfWeek {
   monday,

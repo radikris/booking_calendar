@@ -1,8 +1,10 @@
+import 'dart:js_interop';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:table_calendar/table_calendar.dart' as tc
-    show StartingDayOfWeek;
+    show StartingDayOfWeek, CalendarFormat;
 
 import '../core/booking_controller.dart';
 import '../model/booking_service.dart';
@@ -20,6 +22,9 @@ class BookingCalendarMain extends StatefulWidget {
     required this.getBookingStream,
     required this.convertStreamResultToDateTimeRanges,
     required this.uploadBooking,
+    required this.monthText,
+    required this.twoWeekText,
+    required this.weekText,
     this.bookingExplanation,
     this.bookingGridCrossAxisCount,
     this.bookingGridChildAspectRatio,
@@ -48,6 +53,8 @@ class BookingCalendarMain extends StatefulWidget {
     this.disabledDays,
     this.disabledDates,
     this.lastDay,
+    this.calendarFormats,
+    this.defaultFormat,
   }) : super(key: key);
 
   final Stream<dynamic>? Function(
@@ -68,6 +75,11 @@ class BookingCalendarMain extends StatefulWidget {
   final Color? selectedSlotColor;
   final Color? availableSlotColor;
   final Color? pauseSlotColor;
+  final Map<bc.CalendarFormat, String>? calendarFormats;
+  final bc.CalendarFormat? defaultFormat;
+  final String monthText;
+  final String twoWeekText;
+  final String weekText;
 
 //Added optional TextStyle to available, booked and selected cards.
   final String? bookedSlotText;
@@ -100,6 +112,8 @@ class BookingCalendarMain extends StatefulWidget {
 class _BookingCalendarMainState extends State<BookingCalendarMain> {
   late BookingController controller;
   final now = DateTime.now();
+  late CalendarFormat _calendarFormat =
+      widget.defaultFormat?.toTC() ?? tc.CalendarFormat.month;
 
   @override
   void initState() {
@@ -113,8 +127,6 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
     _selectedDay = firstDay;
     controller.selectFirstDayByHoliday(startOfDay, endOfDay);
   }
-
-  CalendarFormat _calendarFormat = CalendarFormat.twoWeeks;
 
   late DateTime _selectedDay;
   late DateTime _focusedDay;
@@ -154,6 +166,31 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
   @override
   Widget build(BuildContext context) {
     controller = context.watch<BookingController>();
+    final convertedFormats = <tc.CalendarFormat, String>{};
+
+    if (!widget.calendarFormats.isNull) {
+      widget.calendarFormats?.forEach((key, value) {
+        if (key == bc.CalendarFormat.month) {
+          if (value != widget.monthText) {
+            convertedFormats[key.toTC()] = value;
+          } else {
+            convertedFormats[key.toTC()] = widget.monthText;
+          }
+        } else if (key == bc.CalendarFormat.twoWeeks) {
+          if (value != widget.twoWeekText) {
+            convertedFormats[key.toTC()] = value;
+          } else {
+            convertedFormats[key.toTC()] = widget.twoWeekText;
+          }
+        } else if (key == bc.CalendarFormat.week) {
+          if (value != widget.weekText) {
+            convertedFormats[key.toTC()] = value;
+          } else {
+            convertedFormats[key.toTC()] = widget.weekText;
+          }
+        }
+      });
+    }
 
     return Consumer<BookingController>(
       builder: (_, controller, __) => Padding(
@@ -198,11 +235,13 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
                         return isEnabled;
                       },
                       locale: widget.locale,
-                      availableCalendarFormats: const {
-                        CalendarFormat.month: 'Ver Mensal',
-                        CalendarFormat.twoWeeks: 'Ver 2 Semanas',
-                        CalendarFormat.week: 'Ver 1 Semana'
-                      },
+                      availableCalendarFormats: widget.calendarFormats.isNull
+                          ? {
+                              tc.CalendarFormat.month: widget.monthText,
+                              tc.CalendarFormat.twoWeeks: widget.twoWeekText,
+                              tc.CalendarFormat.week: widget.weekText
+                            }
+                          : convertedFormats,
                       firstDay: calculateFirstDay(),
                       lastDay: widget.lastDay ??
                           DateTime.now().add(const Duration(days: 1000)),
