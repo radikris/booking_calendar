@@ -91,9 +91,9 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
           ),
           body: Center(
             child: BookingCalendar(
-              calendarFormats: {
-                CalendarFormat.month: "30",
-                CalendarFormat.week: "7"
+              calendarFormats: const {
+                CalendarFormat.month: "Month",
+                CalendarFormat.week: "Week"
               },
               defaultFormat: CalendarFormat.week,
               bookingService: mockBookingService,
@@ -106,7 +106,7 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
               loadingWidget: const Text('Fetching data...'),
               uploadingWidget: const CircularProgressIndicator(),
               locale: 'en_AU',
-              startingDayOfWeek: StartingDayOfWeek.friday,
+              startingDayOfWeek: StartingDayOfWeek.sunday,
               wholeDayIsBookedWidget:
                   const Text('Sorry, for this day everything is booked'),
               //disabledDates: [DateTime(2023, 1, 20)],
