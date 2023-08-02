@@ -9,14 +9,14 @@ import 'booking_controller.dart';
 class BookingCalendar extends StatelessWidget {
   const BookingCalendar(
       {Key? key,
-      this.controller,
-      required this.bookingService,
+      required this.controller,
+      // required this.bookingService,
       required this.getBookingStream,
       @Deprecated(
           'In next version this will be deleted, use onBookSelected instead')
       this.uploadBooking,
       required this.convertStreamResultToDateTimeRanges,
-      this.onBookSelected,
+      this.onBookChange,
       this.bookingExplanation,
       this.bookingGridCrossAxisCount,
       this.bookingGridChildAspectRatio,
@@ -39,7 +39,7 @@ class BookingCalendar extends StatelessWidget {
       this.wholeDayIsBookedWidget,
       this.pauseSlotColor,
       this.pauseSlotText,
-      this.pauseSlots,
+      // this.pauseSlots,
       this.hideBreakTime,
       this.locale,
       this.startingDayOfWeek = StartingDayOfWeek.monday,
@@ -49,15 +49,15 @@ class BookingCalendar extends StatelessWidget {
       : super(key: key);
 
   /// Controller for the booking calendar.
-  final BookingController? controller;
+  final BookingController controller;
 
-  ///for the Calendar picker we use: [TableCalendar]
-  ///credit: https://pub.dev/packages/table_calendar
+  // ///for the Calendar picker we use: [TableCalendar]
+  // ///credit: https://pub.dev/packages/table_calendar
 
-  ///initial [BookingService] which contains the details of the service,
-  ///and this service will get additional two parameters:
-  ///the [BookingService.bookingStart] and [BookingService.bookingEnd] date of the booking
-  final BookingService bookingService;
+  // ///initial [BookingService] which contains the details of the service,
+  // ///and this service will get additional two parameters:
+  // ///the [BookingService.bookingStart] and [BookingService.bookingEnd] date of the booking
+  // final BookingService bookingService;
 
   ///this function returns a [Stream] which will be passed to the [StreamBuilder],
   ///so we can track realtime changes in our Booking Calendar
@@ -94,7 +94,7 @@ class BookingCalendar extends StatelessWidget {
   ///
   /// This function should be provided by the parent widget or the application
   /// using the `BookingCalendar` widget.
-  final Future<void> Function(BookingService newBooking)? onBookSelected;
+  final Future<void> Function(BookingService newBooking)? onBookChange;
 
   ///this will be display above the Booking Slots, which can be used to give the user
   ///extra informations of the booking calendar (like Colors: default)
@@ -146,8 +146,8 @@ class BookingCalendar extends StatelessWidget {
   ///not only the red slots
   final Widget? wholeDayIsBookedWidget;
 
-  ///The pause time, where the slots won't be available
-  final List<DateTimeRange>? pauseSlots;
+  // ///The pause time, where the slots won't be available
+  // final List<DateTimeRange>? pauseSlots;
 
   ///True if you want to hide your break time from the calendar, and the explanation text as well
   final bool? hideBreakTime;
@@ -171,14 +171,11 @@ class BookingCalendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) =>
-          controller ??
-          BookingController(
-              bookingService: bookingService, pauseSlots: pauseSlots),
+      create: (_) => controller,
       child: BookingCalendarMain(
         key: key,
         getBookingStream: getBookingStream,
-        onBookSelected: onBookSelected ?? uploadBooking,
+        onBookChange: onBookChange ?? uploadBooking,
         bookingButtonColor: bookingButtonColor,
         bookingButtonText: bookingButtonText,
         bookingExplanation: bookingExplanation,

@@ -22,7 +22,8 @@ class BookingCalendarDemoApp extends ConsumerStatefulWidget {
 class _BookingCalendarDemoAppState
     extends ConsumerState<BookingCalendarDemoApp> {
   final now = DateTime.now();
-  late BookingService mockBookingService;
+  late final BookingService mockBookingService;
+  late final BookingController mockBookingController;
 
   @override
   void initState() {
@@ -30,10 +31,15 @@ class _BookingCalendarDemoAppState
     // DateTime.now().startOfDay
     // DateTime.now().endOfDay
     mockBookingService = BookingService(
-        serviceName: 'Mock Service',
-        serviceDuration: 30,
-        bookingEnd: DateTime(now.year, now.month, now.day, 18, 0),
-        bookingStart: DateTime(now.year, now.month, now.day, 8, 0));
+      serviceName: 'Mock Service',
+      serviceDuration: 30,
+    );
+
+    mockBookingController = BookingController(
+        serviceOpening: DateTime(now.year, now.month, now.day, 8, 0),
+        serviceClosing: DateTime(now.year, now.month, now.day, 16, 0),
+        bookingService: mockBookingService,
+        pauseSlots: generatePauseSlots());
   }
 
   Stream<dynamic>? getBookingStreamMock(
@@ -43,7 +49,7 @@ class _BookingCalendarDemoAppState
 
   Future<dynamic> onBookSelected(BuildContext context,
       {required BookingService newBooking}) async {
-    await Future.delayed(const Duration(seconds: 1));
+    // await Future.delayed(const Duration(seconds: 1));
 
     if (mounted) {
       showDialog(
@@ -62,9 +68,12 @@ class _BookingCalendarDemoAppState
         ),
       );
     }
-    converted.add(DateTimeRange(
-        start: newBooking.bookingStart, end: newBooking.bookingEnd));
-    print('${newBooking.toJson()} has been uploaded');
+    if (newBooking.bookingStart != null && newBooking.bookingEnd != null) {
+      converted.add(DateTimeRange(
+          start: newBooking.bookingStart!, end: newBooking.bookingEnd!));
+      print('${newBooking.toJson()} has been uploaded');
+      setState(() {});
+    }
   }
 
   List<DateTimeRange> converted = [];
@@ -172,13 +181,13 @@ class _BookingCalendarDemoAppState
             ),
             body: Center(
               child: BookingCalendar(
-                bookingService: mockBookingService,
+                controller: mockBookingController,
                 convertStreamResultToDateTimeRanges: convertStreamResultMock,
                 getBookingStream: getBookingStreamMock,
-                onBookSelected: (BookingService newBooking) async {
+                onBookChange: (BookingService newBooking) async {
                   await onBookSelected(context, newBooking: newBooking);
                 },
-                pauseSlots: generatePauseSlots(),
+                // pauseSlots: ,
                 pauseSlotText: 'LUNCH',
                 hideBreakTime: false,
                 loadingWidget: const Text('Fetching data...'),

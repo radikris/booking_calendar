@@ -33,18 +33,18 @@ class BookingService {
   final int? servicePrice;
 
   ///The selected booking slot's starting time
-  DateTime bookingStart;
+  DateTime? bookingStart;
 
   ///The selected booking slot's ending time
-  DateTime bookingEnd;
+  DateTime? bookingEnd;
 
   BookingService({
     this.userEmail,
     this.userPhoneNumber,
     this.userId,
     this.userName,
-    required this.bookingStart,
-    required this.bookingEnd,
+    this.bookingStart,
+    this.bookingEnd,
     this.serviceId,
     required this.serviceName,
     required this.serviceDuration,
@@ -72,7 +72,7 @@ class BookingService {
         'serviceName': serviceName,
         'serviceDuration': serviceDuration,
         'servicePrice': servicePrice,
-        'bookingStart': bookingStart.toIso8601String(),
-        'bookingEnd': bookingEnd.toIso8601String(),
+        'bookingStart': bookingStart?.toIso8601String(),
+        'bookingEnd': bookingEnd?.toIso8601String(),
       };
 }
