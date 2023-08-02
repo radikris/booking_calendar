@@ -9,6 +9,7 @@ import 'booking_controller.dart';
 class BookingCalendar extends StatelessWidget {
   const BookingCalendar(
       {Key? key,
+      this.controller,
       required this.bookingService,
       required this.getBookingStream,
       @Deprecated(
@@ -46,6 +47,9 @@ class BookingCalendar extends StatelessWidget {
       this.disabledDates,
       this.lastDay})
       : super(key: key);
+
+  /// Controller for the booking calendar.
+  final BookingController? controller;
 
   ///for the Calendar picker we use: [TableCalendar]
   ///credit: https://pub.dev/packages/table_calendar
@@ -167,8 +171,10 @@ class BookingCalendar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => BookingController(
-          bookingService: bookingService, pauseSlots: pauseSlots),
+      create: (_) =>
+          controller ??
+          BookingController(
+              bookingService: bookingService, pauseSlots: pauseSlots),
       child: BookingCalendarMain(
         key: key,
         getBookingStream: getBookingStream,
