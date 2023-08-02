@@ -144,6 +144,7 @@ class BookingController extends ChangeNotifier {
       ..bookingEnd =
           (bookingDate.add(Duration(minutes: _bookingService.serviceDuration)));
     _bookingService = _bookingService;
+    notifyListeners();
   }
 
   bool isSlotInPauseTime(DateTime slot) {
