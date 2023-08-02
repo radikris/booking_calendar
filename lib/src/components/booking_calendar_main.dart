@@ -115,13 +115,6 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
     _focusedDay = firstDay;
     _selectedDay = firstDay;
     controller.selectFirstDayByHoliday(startOfDay, endOfDay);
-    controller.addListener(onChanges);
-  }
-
-  void onChanges() {
-    if (controller.selectedSlot != -1) {
-      widget.onBookChange?.call(controller.generateNewBookingForUploading());
-    }
   }
 
   CalendarFormat _calendarFormat = CalendarFormat.twoWeeks;
@@ -159,12 +152,6 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
       }
     }
     return -1;
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    controller.removeListener(onChanges);
   }
 
   @override
@@ -340,7 +327,13 @@ class _BookingCalendarMainState extends State<BookingCalendarMain> {
                               isPauseTime: controller.isSlotInPauseTime(slot),
                               isBooked: controller.isSlotBooked(index),
                               isSelected: index == controller.selectedSlot,
-                              onTap: () => controller.selectSlot(index),
+                              onTap: () {
+                                if (controller.isSlotBooked(index)) {
+                                  return;
+                                }
+                                controller.select(index);
+                                widget.onBookChange?.call(controller.value);
+                              },
                               child: Center(
                                 child: Text(
                                   widget.formatDateTime?.call(slot) ??

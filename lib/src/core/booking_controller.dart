@@ -93,6 +93,16 @@ class BookingController extends ChangeNotifier {
     return ((openingHours * 60) / _bookingService.serviceDuration).floor();
   }
 
+  /// The function checks if a given slot is already booked by comparing
+  /// it with the existing booked slots.
+  ///
+  /// Args:
+  ///   index (int): The index parameter represents the index of the slot
+  ///   in the allBookingSlots list that you want to check if it is booked
+  ///   or not.
+  ///
+  /// Returns:
+  ///   a boolean value.
   bool isSlotBooked(int index) {
     DateTime checkSlot = allBookingSlots.elementAt(index);
     bool result = false;
@@ -104,11 +114,6 @@ class BookingController extends ChangeNotifier {
       }
     }
     return result;
-  }
-
-  void selectSlot(int idx) {
-    _selectedSlot = idx;
-    notifyListeners();
   }
 
   void resetSelectedSlot() {
@@ -131,14 +136,14 @@ class BookingController extends ChangeNotifier {
     }
   }
 
-  BookingService generateNewBookingForUploading() {
+  void select(int index) {
+    _selectedSlot = index;
     final bookingDate = allBookingSlots.elementAt(selectedSlot);
     _bookingService
       ..bookingStart = (bookingDate)
       ..bookingEnd =
           (bookingDate.add(Duration(minutes: _bookingService.serviceDuration)));
     _bookingService = _bookingService;
-    return _bookingService;
   }
 
   bool isSlotInPauseTime(DateTime slot) {
