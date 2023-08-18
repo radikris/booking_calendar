@@ -32,12 +32,15 @@ class _BookingCalendarDemoAppState
     // DateTime.now().endOfDay
     mockBookingService = BookingService(
       serviceName: 'Mock Service',
-      serviceDuration: 30,
+      serviceDuration: 60,
+      bookingStart: DateTime(2023, 8, 18, 15, 0), // 10:00 AM
+      bookingEnd: DateTime(2023, 8, 18, 16, 0), // 11:00 AM
     );
 
     mockBookingController = BookingController(
-        serviceOpening: DateTime(now.year, now.month, now.day, 8, 0),
-        serviceClosing: DateTime(now.year, now.month, now.day, 16, 0),
+        serviceOpening: DateTime(2023, 8, 18, 8, 0), // 08:00 AM
+        serviceClosing: DateTime(2023, 8, 18, 17, 0), // 05:00 PM
+
         bookingService: mockBookingService,
         pauseSlots: generatePauseSlots());
   }

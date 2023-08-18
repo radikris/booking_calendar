@@ -17,6 +17,7 @@ class BookingController extends ChangeNotifier {
     }
     base = serviceOpening;
     _generateBookingSlots();
+    _initializeSelectedSlot();
   }
 
   ///for the Calendar picker we use: [TableCalendar]
@@ -53,6 +54,18 @@ class BookingController extends ChangeNotifier {
   void initBack() {
     // _isUploading = false;
     _successfullUploaded = false;
+  }
+
+  void _initializeSelectedSlot() {
+    if (_bookingService.bookingStart != null &&
+        _bookingService.bookingEnd != null) {
+      // Calculate the difference between the bookingStart and the serviceOpening
+      Duration difference =
+          _bookingService.bookingStart!.difference(serviceOpening);
+      // Determine the slot based on the service duration
+      _selectedSlot =
+          (difference.inMinutes / _bookingService.serviceDuration).floor();
+    }
   }
 
   void selectFirstDayByHoliday(DateTime first, DateTime firstEnd) {
