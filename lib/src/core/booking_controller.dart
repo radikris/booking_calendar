@@ -59,9 +59,19 @@ class BookingController extends ChangeNotifier {
   void _initializeSelectedSlot() {
     if (_bookingService.bookingStart != null &&
         _bookingService.bookingEnd != null) {
+      // Extract time only (ignoring year, month, and day) from both DateTime objects
+      final bookingStartTime = DateTime(0, 0, 0).copyWith(
+        hour: _bookingService.bookingStart!.hour,
+        minute: _bookingService.bookingStart!.minute,
+      );
+      final serviceOpeningTime = DateTime(0, 0, 0).copyWith(
+        hour: serviceOpening.hour,
+        minute: serviceOpening.minute,
+      );
+
       // Calculate the difference between the bookingStart and the serviceOpening
-      Duration difference =
-          _bookingService.bookingStart!.difference(serviceOpening);
+      Duration difference = bookingStartTime.difference(serviceOpeningTime);
+
       // Determine the slot based on the service duration
       _selectedSlot =
           (difference.inMinutes / _bookingService.serviceDuration).floor();

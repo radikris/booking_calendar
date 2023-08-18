@@ -33,8 +33,8 @@ class _BookingCalendarDemoAppState
     mockBookingService = BookingService(
       serviceName: 'Mock Service',
       serviceDuration: 60,
-      bookingStart: DateTime(2023, 8, 18, 15, 0), // 10:00 AM
-      bookingEnd: DateTime(2023, 8, 18, 16, 0), // 11:00 AM
+      bookingStart: DateTime(2024, 8, 18, 10, 0), // 10:00 AM
+      bookingEnd: DateTime(2024, 8, 18, 11, 0), // 11:00 AM
     );
 
     mockBookingController = BookingController(
