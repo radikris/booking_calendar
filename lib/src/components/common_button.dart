@@ -58,7 +58,7 @@ class CommonButton extends StatelessWidget {
         ),
         child: Text(
           text,
-          style: buttonStyle ?? themeData.button!.copyWith(color: _getTextColor()),
+          style: buttonStyle ?? themeData.labelLarge!.copyWith(color: _getTextColor()),
           textAlign: TextAlign.center,
         ),
       ),

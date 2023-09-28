@@ -50,7 +50,7 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
     ///take care this is only mock, so if you add today as disabledDays it will still be visible on the first load
     ///disabledDays will properly work with real data
     DateTime first = now;
-    DateTime tomorrow = now.add(Duration(days: 1));
+    DateTime tomorrow = now.add(const Duration(days: 1));
     DateTime second = now.add(const Duration(minutes: 55));
     DateTime third = now.subtract(const Duration(minutes: 240));
     DateTime fourth = now.subtract(const Duration(minutes: 500));

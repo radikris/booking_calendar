@@ -15,5 +15,5 @@ void main() async {
     return callback;
   });
 
-  stream.listen((e) async => print(await e));
+  stream.listen((e) async => print(e));
 }
