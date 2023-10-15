@@ -170,8 +170,11 @@ class BookingController extends ChangeNotifier {
     notifyListeners();
   }
 
-  bool isSlotInPauseTime(DateTime slot) {
+  bool isSlotInPauseTime(DateTime slot, int index) {
     bool result = false;
+    if (isSlotBooked(index)) {
+      return result;
+    }
     if (!result && slot.isBefore(DateTime.now())) {
       result = true;
     }

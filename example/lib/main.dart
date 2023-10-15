@@ -50,9 +50,9 @@ class _BookingCalendarDemoAppState
     // Mock data
     final bookings = [
       {
-        'bookingStart': "2023-08-28T10:00:00.000+08:00",
+        'bookingStart': "2023-10-15T10:00:00.000+08:00",
         'bookingEnd':
-            "2023-08-28T11:00:00.000+08:00", // Just an example for the end time
+            "2023-10-15T11:00:00.000+08:00", // Just an example for the end time
       },
 
       // ... add more mock bookings as needed
