@@ -172,7 +172,9 @@ class BookingController extends ChangeNotifier {
 
   bool isSlotInPauseTime(DateTime slot) {
     bool result = false;
-
+    if (!result && slot.isBefore(DateTime.now())) {
+      result = true;
+    }
     if (pauseSlots == null) {
       return result;
     }
@@ -189,9 +191,7 @@ class BookingController extends ChangeNotifier {
         break;
       }
     }
-    if (!result && slot.isBefore(DateTime.now())) {
-      result = true;
-    }
+
     return result;
   }
 }
