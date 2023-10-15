@@ -172,15 +172,25 @@ class BookingController extends ChangeNotifier {
 
   bool isSlotInPauseTime(DateTime slot) {
     bool result = false;
+
     if (pauseSlots == null) {
       return result;
     }
     for (var pauseSlot in pauseSlots!) {
-      if (BookingUtil.isOverLapping(pauseSlot.start, pauseSlot.end, slot,
+      final DateTimeRange(:start, :end) = DateTimeRange(
+          start: pauseSlot.start
+              .copyWith(year: slot.year, month: slot.month, day: slot.day),
+          end: pauseSlot.end
+              .copyWith(year: slot.year, month: slot.month, day: slot.day));
+
+      if (BookingUtil.isOverLapping(start, end, slot,
           slot.add(Duration(minutes: _bookingService.serviceDuration)))) {
         result = true;
         break;
       }
+    }
+    if (!result && slot.isBefore(DateTime.now())) {
+      result = true;
     }
     return result;
   }

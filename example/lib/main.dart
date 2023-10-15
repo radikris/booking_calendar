@@ -127,7 +127,7 @@ class _BookingCalendarDemoAppState
     // converted.add(DateTimeRange(
     //     start: DateTime(tomorrow.year, tomorrow.month, tomorrow.day, 5, 0),
     //     end: DateTime(tomorrow.year, tomorrow.month, tomorrow.day, 23, 0)));
-    return converted;
+    // return converted;
   }
 
   List<DateTimeRange> generatePauseSlots() {
@@ -224,7 +224,7 @@ class _BookingCalendarDemoAppState
                 wholeDayIsBookedWidget:
                     const Text('Sorry, for this day everything is booked'),
                 //disabledDates: [DateTime(2023, 1, 20)],
-                disabledDays: [6, 7],
+                // disabledDays: [6, 7],
               ),
             ),
           );
