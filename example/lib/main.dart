@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:booking_calendar/booking_calendar.dart';
 import 'package:intl/date_symbol_data_local.dart';
-import 'package:logger/web.dart';
 
-Logger log = Logger(printer: PrettyPrinter());
 void main() {
   initializeDateFormatting()
       .then((_) => runApp(const BookingCalendarDemoApp()));
@@ -34,13 +32,12 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
 
   Stream<dynamic>? getBookingStreamMock(
       {required DateTime end, required DateTime start}) {
-    log.w('Get Mocking Stream Called');
+ 
     return Stream.value([]);
   }
 
   Future<dynamic> uploadBookingMock(
       {required BookingService newBooking}) async {
-    log.w('Upload Mocking Called');
     await Future.delayed(const Duration(seconds: 1));
     converted.add(DateTimeRange(
         start: newBooking.bookingStart, end: newBooking.bookingEnd));
@@ -50,7 +47,6 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
   List<DateTimeRange> converted = [];
 
   List<DateTimeRange> convertStreamResultMock({required dynamic streamResult}) {
-    log.w('Get convertStreamResultMock Called');
 
     ///here you can parse the streamresult and convert to [List<DateTimeRange>]
     ///take care this is only mock, so if you add today as disabledDays it will still be visible on the first load
@@ -77,7 +73,7 @@ class _BookingCalendarDemoAppState extends State<BookingCalendarDemoApp> {
   }
 
   List<DateTimeRange> generatePauseSlots() {
-    log.w('generatePauseSlots Called');
+
     return [
       DateTimeRange(
           start: DateTime(now.year, now.month, now.day, 12, 0),
