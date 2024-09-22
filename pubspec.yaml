@@ -11,13 +11,13 @@ dependencies:
   flutter:
     sdk: flutter
   table_calendar: ^3.0.9
-  intl: ^0.18.0
+  intl: ^0.19.0
   provider: ^6.0.5
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^1.0.0
+  flutter_lints: ^4.0.0
   build_runner: ^2.1.7
 
 # For information on the generic Dart part of this file, see the
