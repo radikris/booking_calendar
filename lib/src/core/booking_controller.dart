@@ -93,7 +93,11 @@ class BookingController extends ChangeNotifier {
   }
 
   void selectSlot(int idx) {
-    _selectedSlot = idx;
+    if (_selectedSlot == idx) {
+      _selectedSlot = -1;
+    } else {
+      _selectedSlot = idx;
+    }
     notifyListeners();
   }
 
