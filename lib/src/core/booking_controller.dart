@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 class BookingController extends ChangeNotifier {
   BookingService bookingService;
+
   BookingController({required this.bookingService, this.pauseSlots}) {
     serviceOpening = bookingService.bookingStart;
     serviceClosing = bookingService.bookingEnd;
@@ -21,6 +22,7 @@ class BookingController extends ChangeNotifier {
   DateTime? serviceClosing;
 
   List<DateTime> _allBookingSlots = [];
+
   List<DateTime> get allBookingSlots => _allBookingSlots;
 
   List<DateTimeRange> bookedSlots = [];
@@ -30,9 +32,11 @@ class BookingController extends ChangeNotifier {
   bool _isUploading = false;
 
   int get selectedSlot => _selectedSlot;
+
   bool get isUploading => _isUploading;
 
   bool _successfullUploaded = false;
+
   bool get isSuccessfullUploaded => _successfullUploaded;
 
   void initBack() {
@@ -123,6 +127,18 @@ class BookingController extends ChangeNotifier {
 
   BookingService generateNewBookingForUploading() {
     final bookingDate = allBookingSlots.elementAt(selectedSlot);
+    final bookingService = BookingService(
+      bookingStart: this.bookingService.bookingStart,
+      bookingEnd: this.bookingService.bookingEnd,
+      serviceName: this.bookingService.serviceName,
+      serviceDuration: this.bookingService.serviceDuration,
+      serviceId: this.bookingService.serviceId,
+      servicePrice: this.bookingService.servicePrice,
+      userEmail: this.bookingService.userEmail,
+      userId: this.bookingService.userId,
+      userName: this.bookingService.userName,
+      userPhoneNumber: this.bookingService.userPhoneNumber,
+    );
     bookingService
       ..bookingStart = (bookingDate)
       ..bookingEnd =
